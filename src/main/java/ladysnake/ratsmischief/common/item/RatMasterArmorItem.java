@@ -4,7 +4,6 @@ import ladysnake.ratsmischief.client.RatsMischiefClientHelper;
 import ladysnake.ratsmischief.common.RatsMischief;
 import ladysnake.ratsmischief.mialeemisc.util.MialeeMath;
 import ladysnake.ratsmischief.mialeemisc.util.MialeeText;
-import net.minecraft.client.item.TooltipContext;
 import net.minecraft.entity.EquipmentSlot;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.item.ArmorItem;

@@ -25,7 +25,7 @@ public class RatsMischiefClient implements ClientModInitializer {
 	public static final ModelIdentifier RAT_MASTER_MASK_WORN = new ModelIdentifier(RatsMischief.MOD_ID, "rat_master_mask_worn", "inventory");
 
 	static {
-		ModelPredicateProviderRegistry.register(ModItems.RAT_MASTER_OCARINA, new Identifier("action"), (stack, world, entity, seed) -> stack.getOrCreateNbt().getInt("action") / 4f);
+		ModelPredicateProviderRegistry.register(ModItems.RAT_MASTER_OCARINA, Identifier.of("action"), (stack, world, entity, seed) -> stack.getOrCreateNbt().getInt("action") / 4f);
 	}
 
 	@Override

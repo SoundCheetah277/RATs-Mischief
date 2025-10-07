@@ -5,8 +5,8 @@ import ladysnake.ratsmischief.common.RatsMischiefUtils;
 import ladysnake.ratsmischief.common.entity.RatEntity;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.math.MathHelper;
-import software.bernie.geckolib.core.animatable.model.CoreGeoBone;
-import software.bernie.geckolib.core.animation.AnimationState;
+import software.bernie.geckolib.animation.AnimationState;
+import software.bernie.geckolib.cache.object.GeoBone;
 import software.bernie.geckolib.model.GeoModel;
 
 public class RatEntityModel extends GeoModel<RatEntity> {
@@ -33,9 +33,9 @@ public class RatEntityModel extends GeoModel<RatEntity> {
 		super.setCustomAnimations(ratEntity, instanceId, animationState);
 
 		if (!(ratEntity.isSniffing() || ratEntity.isEating() || ratEntity.isFlying())) {
-			CoreGeoBone head = this.getAnimationProcessor().getBone("head");
-			CoreGeoBone leftEar = this.getAnimationProcessor().getBone("leftear");
-			CoreGeoBone rightEar = this.getAnimationProcessor().getBone("rightear");
+			GeoBone head = this.getAnimationProcessor().getBone("head");
+			GeoBone leftEar = this.getAnimationProcessor().getBone("leftear");
+			GeoBone rightEar = this.getAnimationProcessor().getBone("rightear");
 
 			head.setRotX(MathHelper.clamp(-ratEntity.getPitch(), 0, 90) * ((float) Math.PI / 180F));
 			leftEar.setRotX(MathHelper.clamp(ratEntity.getPitch(), -90, 0) * 1.4f * ((float) Math.PI / 180F));
@@ -46,8 +46,8 @@ public class RatEntityModel extends GeoModel<RatEntity> {
 
 		// sexually aroused rat
 		if (ratEntity.isAroused()) {
-			CoreGeoBone tail = this.getAnimationProcessor().getBone("tail");
-			CoreGeoBone tailend = this.getAnimationProcessor().getBone("tailend");
+			GeoBone tail = this.getAnimationProcessor().getBone("tail");
+			GeoBone tailend = this.getAnimationProcessor().getBone("tailend");
 
 			tail.setRotX((float) (-45 * Math.PI / 180));
 			tailend.setRotX((float) (-30 * Math.PI / 180));

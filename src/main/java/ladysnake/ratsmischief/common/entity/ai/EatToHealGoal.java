@@ -9,7 +9,7 @@ import net.minecraft.item.PotionItem;
 import net.minecraft.item.ThrowablePotionItem;
 import net.minecraft.particle.ItemStackParticleEffect;
 import net.minecraft.particle.ParticleTypes;
-import net.minecraft.potion.PotionUtil;
+import net.minecraft.potion.Potions;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.sound.SoundCategory;
 import net.minecraft.util.UseAction;
@@ -51,7 +51,7 @@ public class EatToHealGoal extends Goal {
 						ItemStack stack = this.rat.getMainHandStack();
 
 						if (!this.rat.getWorld().isClient()) {
-							List<StatusEffectInstance> list = PotionUtil.getPotionEffects(stack);
+							List<StatusEffectInstance> list = Potions.getPotionEffects(stack);
 
 							for (StatusEffectInstance statusEffectInstance : list) {
 								if (statusEffectInstance.getEffectType().isInstant()) {

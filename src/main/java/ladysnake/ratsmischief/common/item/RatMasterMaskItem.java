@@ -5,7 +5,6 @@ import dev.emi.trinkets.api.TrinketsApi;
 import ladysnake.ratsmischief.common.init.ModItems;
 import ladysnake.ratsmischief.mialeemisc.util.MialeeMath;
 import ladysnake.ratsmischief.mialeemisc.util.MialeeText;
-import net.minecraft.client.item.TooltipContext;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NbtCompound;

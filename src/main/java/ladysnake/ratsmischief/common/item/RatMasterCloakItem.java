@@ -1,6 +1,5 @@
 package ladysnake.ratsmischief.common.item;
 
-import net.minecraft.client.item.TooltipContext;
 import net.minecraft.item.ArmorMaterial;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NbtCompound;

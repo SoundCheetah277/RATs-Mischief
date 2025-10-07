@@ -8,7 +8,6 @@ import ladysnake.ratsmischief.common.entity.ai.HarvestPlantMealGoal;
 import ladysnake.ratsmischief.mialeemisc.items.IClickConsumingItem;
 import ladysnake.ratsmischief.mialeemisc.util.MialeeMath;
 import net.minecraft.block.BlockState;
-import net.minecraft.client.item.TooltipContext;
 import net.minecraft.entity.ai.goal.ActiveTargetGoal;
 import net.minecraft.entity.ai.goal.Goal;
 import net.minecraft.entity.mob.HostileEntity;

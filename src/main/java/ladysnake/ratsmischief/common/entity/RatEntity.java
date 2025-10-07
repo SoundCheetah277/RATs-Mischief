@@ -67,8 +67,10 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
 import net.minecraft.nbt.NbtCompound;
+import net.minecraft.particle.ParticleEffect;
 import net.minecraft.particle.ParticleTypes;
 import net.minecraft.registry.Registries;
+import net.minecraft.registry.entry.RegistryEntry;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.sound.BlockSoundGroup;
 import net.minecraft.sound.SoundEvent;
@@ -91,17 +93,11 @@ import net.minecraft.world.ServerWorldAccess;
 import net.minecraft.world.World;
 import net.minecraft.world.event.GameEvent;
 import org.jetbrains.annotations.Nullable;
+import software.bernie.geckolib.animatable.GeoAnimatable;
 import software.bernie.geckolib.animatable.GeoEntity;
-import software.bernie.geckolib.core.animatable.GeoAnimatable;
-import software.bernie.geckolib.core.animatable.instance.AnimatableInstanceCache;
-import software.bernie.geckolib.core.animation.AnimatableManager;
-import software.bernie.geckolib.core.animation.Animation;
-import software.bernie.geckolib.core.animation.AnimationController;
-import software.bernie.geckolib.core.animation.AnimationState;
-import software.bernie.geckolib.core.animation.RawAnimation;
-import software.bernie.geckolib.core.object.PlayState;
+import software.bernie.geckolib.animatable.instance.AnimatableInstanceCache;
+import software.bernie.geckolib.animation.*;
 import software.bernie.geckolib.util.GeckoLibUtil;
-
 import java.util.ArrayList;
 import java.util.EnumSet;
 import java.util.List;
@@ -146,7 +142,7 @@ public class RatEntity extends TameableEntity implements GeoEntity, Angerable {
 	}
 
 	public static DefaultAttributeContainer.Builder createRatAttributes() {
-		return MobEntity.createMobAttributes().add(EntityAttributes.GENERIC_ATTACK_KNOCKBACK, 0.0D).add(StepHeightEntityAttributeMain.STEP_HEIGHT, 2.0D).add(EntityAttributes.GENERIC_MAX_HEALTH, 8.0D).add(EntityAttributes.GENERIC_MOVEMENT_SPEED, 0.5D).add(EntityAttributes.GENERIC_ATTACK_DAMAGE, 0.1).add(EntityAttributes.GENERIC_FOLLOW_RANGE, 32);
+		return MobEntity.createMobAttributes().add(EntityAttributes.GENERIC_ATTACK_KNOCKBACK, 0.0D).add(EntityAttributes.GENERIC_STEP_HEIGHT, 2.0D).add(EntityAttributes.GENERIC_MAX_HEALTH, 8.0D).add(EntityAttributes.GENERIC_MOVEMENT_SPEED, 0.5D).add(EntityAttributes.GENERIC_ATTACK_DAMAGE, 0.1).add(EntityAttributes.GENERIC_FOLLOW_RANGE, 32);
 	}
 
 	public static Type getRandomNaturalType(Random random) {
@@ -172,7 +168,7 @@ public class RatEntity extends TameableEntity implements GeoEntity, Angerable {
 			this.setRatType(List.of(Type.values()).get(this.getRandom().nextInt(Type.values().length)));
 		}
 
-		return super.initialize(world, difficulty, spawnReason, entityData, entityTag);
+		return super.initialize(world, difficulty, spawnReason, entityData);
 	}
 
 	public void setShouldReturnToOwnerInventory(boolean shouldReturnToPlayerInventory) {
@@ -304,12 +300,12 @@ public class RatEntity extends TameableEntity implements GeoEntity, Angerable {
 			if (this.getPotionGene() != null && this.getPotionGene() == secondRat.getPotionGene()) {
 				ratEntity.setPotionGene(this.getPotionGene());
 			} else if (this.random.nextFloat() <= 0.33f) {
-				List<StatusEffect> firstEffects = this.getActiveStatusEffects().keySet().stream().toList();
-				List<StatusEffect> secondEffects = secondRat.getActiveStatusEffects().keySet().stream().toList();
+				List<RegistryEntry<StatusEffect>> firstEffects = this.getActiveStatusEffects().keySet().stream().toList();
+				List<RegistryEntry<StatusEffect>> secondEffects = secondRat.getActiveStatusEffects().keySet().stream().toList();
 				List<StatusEffect> sharedEffects = new ArrayList<>();
-				for (StatusEffect effect : firstEffects) {
+				for (RegistryEntry<StatusEffect> effect : firstEffects) {
 					if (secondEffects.contains(effect)) {
-						sharedEffects.add(effect);
+						sharedEffects.add((StatusEffect) effect);
 					}
 				}
 				if (!sharedEffects.isEmpty()) {
@@ -670,7 +666,7 @@ public class RatEntity extends TameableEntity implements GeoEntity, Angerable {
 				double d = (float) ((k >> 16 & 0xFF)) / 255.0F;
 				double e = (float) ((k >> 8 & 0xFF)) / 255.0F;
 				double f = (float) ((k & 0xFF)) / 255.0F;
-				this.getWorld().addParticle(ParticleTypes.ENTITY_EFFECT, this.getParticleX(0.5), this.getRandomBodyY(), this.getParticleZ(0.5), d, e, f);
+				this.getWorld().addParticle((ParticleEffect) ParticleTypes.ENTITY_EFFECT, this.getParticleX(0.5), this.getRandomBodyY(), this.getParticleZ(0.5), d, e, f);
 			}
 		}
 	}
@@ -705,8 +701,8 @@ public class RatEntity extends TameableEntity implements GeoEntity, Angerable {
 					if (!player.getAbilities().creativeMode) {
 						itemStack.decrement(1);
 					}
-					if (item.getFoodComponent() != null) {
-						this.heal(item.getFoodComponent().getHunger());
+					if (item.getComponents() != null) {
+						this.heal(item.getComponents().getHunger());
 					}
 					return ActionResult.SUCCESS;
 				}
@@ -725,10 +721,10 @@ public class RatEntity extends TameableEntity implements GeoEntity, Angerable {
 						return ActionResult.SUCCESS;
 					}
 				}
-			} else if (item.getFoodComponent() != null && !this.hasAngerTime()) { // taming
+			} else if (item.getComponents() != null && !this.hasAngerTime()) { // taming
 				player.getStackInHand(hand).decrement(1);
 
-				if (this.random.nextInt(Math.max(1, 6 - item.getFoodComponent().getHunger())) == 0) {
+				if (this.random.nextInt(Math.max(1, 6 - item.getComponents().getHunger())) == 0) {
 					this.setOwner(player);
 					this.navigation.stop();
 					this.setTarget(null);
@@ -757,7 +753,7 @@ public class RatEntity extends TameableEntity implements GeoEntity, Angerable {
 
 		// custom name
 		if (this.hasCustomName()) {
-			ratItemStack.setCustomName(this.getCustomName());
+			ratItemStack.getName();
 		}
 
 		if (this.getSlot() >= 0 && player.getInventory().getStack(this.getSlot()).isEmpty()) {
@@ -829,7 +825,7 @@ public class RatEntity extends TameableEntity implements GeoEntity, Angerable {
 
 	@Override
 	public boolean canBeLeashedBy(PlayerEntity player) {
-		return !this.hasAngerTime() && super.canBeLeashedBy(player);
+		return !this.hasAngerTime() && super.canBeLeashed();
 	}
 
 	@Override
@@ -1134,7 +1130,7 @@ public class RatEntity extends TameableEntity implements GeoEntity, Angerable {
 
 	public class BringItemToOwnerGoal extends FollowOwnerGoal {
 		public BringItemToOwnerGoal(TameableEntity tameable, double speed, boolean leavesAllowed) {
-			super(tameable, speed, 0.0f, 0.0f, leavesAllowed);
+			super(tameable, speed, 0.0f, 0.0f);
 		}
 
 		@Override

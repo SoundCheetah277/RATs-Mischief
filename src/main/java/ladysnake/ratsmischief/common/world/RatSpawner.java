@@ -2,6 +2,7 @@ package ladysnake.ratsmischief.common.world;
 
 import ladysnake.ratsmischief.common.entity.RatEntity;
 import ladysnake.ratsmischief.common.init.ModEntities;
+import net.minecraft.block.entity.Spawner;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.SpawnReason;
 import net.minecraft.entity.SpawnRestriction;
@@ -15,7 +16,6 @@ import net.minecraft.world.GameRules;
 import net.minecraft.world.SpawnHelper;
 import net.minecraft.world.poi.PointOfInterestStorage;
 import net.minecraft.world.poi.PointOfInterestTypes;
-import net.minecraft.world.spawner.Spawner;
 
 import java.util.List;
 
@@ -44,7 +44,7 @@ public class RatSpawner implements Spawner {
 							List<VillagerEntity> villagersNearby = world.getEntitiesByType(EntityType.VILLAGER, new Box(blockPos.getX() - SPAWN_RADIUS, blockPos.getY() - SPAWN_RADIUS, blockPos.getZ() - SPAWN_RADIUS, blockPos.getX() + SPAWN_RADIUS, blockPos.getY() + SPAWN_RADIUS, blockPos.getZ() + SPAWN_RADIUS), villagerEntity -> true);
 
 							if (villagersNearby.isEmpty() && world.isRegionLoaded(blockPos.getX() - 10, blockPos.getY() - 10, blockPos.getZ() - 10, blockPos.getX() + 10, blockPos.getY() + 10, blockPos.getZ() + 10)) {
-								if (SpawnHelper.canSpawn(SpawnRestriction.Location.ON_GROUND, world, blockPos, ModEntities.RAT)) {
+								if (SpawnHelper.spawn(SpawnRestriction.Location.ON_GROUND, world, blockPos, ModEntities.RAT)) {
 									for (int i = 0; i <= random.nextInt(5); i++) {
 										this.spawnInHouse(world, blockPos);
 									}
