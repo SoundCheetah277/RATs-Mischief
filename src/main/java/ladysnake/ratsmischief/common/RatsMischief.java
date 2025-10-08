@@ -1,13 +1,7 @@
 package ladysnake.ratsmischief.common;
 
 import ladysnake.ratsmischief.client.render.item.recipe.SpyRatCraftingRecipe;
-import ladysnake.ratsmischief.common.init.ModEnchantments;
-import ladysnake.ratsmischief.common.init.ModEntities;
-import ladysnake.ratsmischief.common.init.ModItems;
-import ladysnake.ratsmischief.common.init.ModLootTables;
-import ladysnake.ratsmischief.common.init.ModSoundEvents;
-import ladysnake.ratsmischief.common.init.ModStatusEffects;
-import ladysnake.ratsmischief.common.init.ModTags;
+import ladysnake.ratsmischief.common.init.*;
 import ladysnake.ratsmischief.common.world.RatSpawner;
 import ladysnake.ratsmischief.mialeemisc.MialeeMisc;
 import net.fabricmc.api.ModInitializer;
@@ -31,8 +25,8 @@ public class RatsMischief implements ModInitializer {
 	public void onInitialize() {
 		// initializing stuff
 		ModEntities.initialize();
-//		ModBlocks.initialize();
-//		ModItemGroup.initialize();
+		ModBlocks.initialize();
+		ModItemGroup.initialize();
 		ModItems.initialize();
 		ModEnchantments.initialize();
 		ModLootTables.initialize();
