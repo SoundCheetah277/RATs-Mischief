@@ -3,12 +3,15 @@ package ladysnake.ratsmischief.mixin;
 import ladysnake.ratsmischief.common.init.ModEnchantments;
 import ladysnake.ratsmischief.common.init.ModStatusEffects;
 import ladysnake.ratsmischief.common.util.PlayerRatOwner;
+import net.minecraft.enchantment.Enchantment;
 import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.damage.DamageSource;
+import net.minecraft.entity.effect.StatusEffect;
 import net.minecraft.entity.effect.StatusEffectInstance;
 import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.registry.entry.RegistryEntry;
 import net.minecraft.world.World;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Unique;
@@ -58,17 +61,17 @@ public abstract class PlayerEntityMixin extends LivingEntity implements PlayerRa
 
 	@Inject(method = "damage", at = @At("TAIL"))
 	public void damage(DamageSource source, float amount, CallbackInfoReturnable<Boolean> cir) {
-		if (this.getHealth() > 0f && this.getHealth() <= 8f && !this.hasStatusEffect(ModStatusEffects.RAT_CURSE) && !this.hasStatusEffect(ModStatusEffects.RAT_CURSE_COOLDOWN)) {
+		if (this.getHealth() > 0f && this.getHealth() <= 8f && !this.hasStatusEffect((RegistryEntry<StatusEffect>) ModStatusEffects.RAT_CURSE) && !this.hasStatusEffect((RegistryEntry<StatusEffect>) ModStatusEffects.RAT_CURSE_COOLDOWN)) {
 			AtomicInteger ratCurseDuration = new AtomicInteger();
 
 			this.getArmorItems().forEach(itemStack -> {
-				if (EnchantmentHelper.getLevel(ModEnchantments.RAT_CURSE, itemStack) > 0) {
+				if (EnchantmentHelper.getLevel((RegistryEntry<Enchantment>) ModEnchantments.RAT_CURSE, itemStack) > 0) {
 					ratCurseDuration.addAndGet(200);
 				}
 			});
 
 			if (ratCurseDuration.get() > 0) {
-				this.addStatusEffect(new StatusEffectInstance(ModStatusEffects.RAT_CURSE, ratCurseDuration.get(), 0, false, false, true));
+				this.addStatusEffect(new StatusEffectInstance((RegistryEntry<StatusEffect>) ModStatusEffects.RAT_CURSE, ratCurseDuration.get(), 0, false, false, true));
 				this.setHealth(8f);
 			}
 		}

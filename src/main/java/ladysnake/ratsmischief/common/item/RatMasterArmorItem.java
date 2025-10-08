@@ -6,12 +6,10 @@ import ladysnake.ratsmischief.mialeemisc.util.MialeeMath;
 import ladysnake.ratsmischief.mialeemisc.util.MialeeText;
 import net.minecraft.entity.EquipmentSlot;
 import net.minecraft.entity.LivingEntity;
-import net.minecraft.item.ArmorItem;
-import net.minecraft.item.ArmorMaterial;
-import net.minecraft.item.ItemStack;
-import net.minecraft.item.Items;
+import net.minecraft.item.*;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.recipe.Ingredient;
+import net.minecraft.registry.entry.RegistryEntry;
 import net.minecraft.sound.SoundEvent;
 import net.minecraft.sound.SoundEvents;
 import net.minecraft.text.Text;
@@ -25,12 +23,12 @@ import java.util.Set;
 public class RatMasterArmorItem extends ArmorItem {
 	public static final Set<EquipmentSlot> SLOTS = Set.of(EquipmentSlot.HEAD, EquipmentSlot.CHEST, EquipmentSlot.LEGS, EquipmentSlot.FEET);
 
-	public RatMasterArmorItem(ArmorMaterial material, Type slot, Settings settings) {
-		super(material, slot, settings);
+	public RatMasterArmorItem(RatMasterArmorMaterial material, Type slot, Settings settings) {
+		super((RegistryEntry<ArmorMaterial>) material, slot, settings);
 	}
 
 	public static MasterArmorBoost getType(ItemStack stack) {
-		NbtCompound compound = stack.getOrCreateNbt();
+		NbtCompound compound = (NbtCompound) stack.getComponents();
 		return MasterArmorBoost.values()[MialeeMath.clampLoop(compound.getInt("type"), 0, MasterArmorBoost.values().length)];
 	}
 
@@ -90,11 +88,10 @@ public class RatMasterArmorItem extends ArmorItem {
 	}
 
 	public void incrementType(ItemStack stack, boolean sneaking) {
-		NbtCompound compound = stack.getOrCreateNbt();
+		NbtCompound compound = (NbtCompound) stack.getComponents();
 		compound.putInt("type", MialeeMath.clampLoop(compound.getInt("type") + 1, 1, MasterArmorBoost.values().length));
 	}
 
-	@Override
 	public void appendTooltip(ItemStack stack, @Nullable World world, List<Text> tooltip, TooltipContext context) {
 		switch (getType(stack)) {
 			case RESISTANCE ->
@@ -115,49 +112,41 @@ public class RatMasterArmorItem extends ArmorItem {
 		MINING_SPEED
 	}
 
-	public static class RatMasterArmorMaterial implements ArmorMaterial {
+	public static class RatMasterArmorMaterial extends ArmorMaterials {
 		public static final RatMasterArmorMaterial INSTANCE = new RatMasterArmorMaterial();
 		private static final String NAME = "rat_master";
 		private static final Identifier TEXTURE = RatsMischief.id("textures/models/armor/" + NAME);
 		private static final int[] BASE_DURABILITY = new int[]{13, 15, 16, 11};
 		private static final int[] PROTECTION_AMOUNTS = new int[]{3, 6, 8, 3};
 
-		@Override
 		public int getDurability(Type slot) {
 			return BASE_DURABILITY[slot.getEquipmentSlot().getEntitySlotId()] * 38;
 		}
 
-		@Override
 		public int getProtection(Type slot) {
 			return PROTECTION_AMOUNTS[slot.getEquipmentSlot().getEntitySlotId()];
 		}
 
-		@Override
 		public int getEnchantability() {
 			return 16;
 		}
 
-		@Override
 		public SoundEvent getEquipSound() {
-			return SoundEvents.ITEM_ARMOR_EQUIP_LEATHER;
+			return (SoundEvent) SoundEvents.ITEM_ARMOR_EQUIP_LEATHER;
 		}
 
-		@Override
 		public Ingredient getRepairIngredient() {
 			return Ingredient.ofItems(Items.LEATHER);
 		}
 
-		@Override
 		public String getName() {
 			return NAME;
 		}
 
-		@Override
 		public float getToughness() {
 			return 2.0f;
 		}
 
-		@Override
 		public float getKnockbackResistance() {
 			return 0.0f;
 		}

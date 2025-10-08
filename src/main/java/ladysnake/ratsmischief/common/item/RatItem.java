@@ -64,7 +64,7 @@ public class RatItem extends Item implements GeoItem {
 
 	@Nullable
 	public static NbtCompound getRatTag(ItemStack stack) {
-		NbtCompound subNbt = stack.getOrCreateSubNbt(RatsMischief.MOD_ID);
+		NbtCompound subNbt = (NbtCompound) stack.getComponents();
 		if (subNbt.contains("rat")) {
 			return subNbt.getCompound("rat");
 		}
@@ -77,8 +77,8 @@ public class RatItem extends Item implements GeoItem {
 			RatEntity rat = new RatEntity(ModEntities.RAT, world);
 			NbtCompound nbt = new NbtCompound();
 			rat.saveNbt(nbt);
-			stack.getOrCreateSubNbt(RatsMischief.MOD_ID).put("rat", nbt);
-			ratTag = stack.getOrCreateSubNbt(RatsMischief.MOD_ID).getCompound("rat");
+			stack.getComponents().put("rat", nbt);
+			ratTag = stack.getComponents().getCompound("rat");
 		}
 		return ratTag;
 	}

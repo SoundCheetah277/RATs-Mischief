@@ -10,7 +10,9 @@ import net.minecraft.recipe.Ingredient;
 import net.minecraft.recipe.RecipeSerializer;
 import net.minecraft.recipe.SpecialCraftingRecipe;
 import net.minecraft.recipe.book.CraftingRecipeCategory;
+import net.minecraft.recipe.input.CraftingRecipeInput;
 import net.minecraft.registry.DynamicRegistryManager;
+import net.minecraft.registry.RegistryWrapper;
 import net.minecraft.util.Identifier;
 import net.minecraft.world.World;
 
@@ -50,11 +52,11 @@ public class SpyRatCraftingRecipe extends SpecialCraftingRecipe {
 			ItemStack ratStack = inventory.getStack(i);
 			if (!ratStack.isEmpty()) {
 				if (ratStack.isOf(ModItems.RAT)
-					&& ratStack.getNbt() != null
-					&& ratStack.getNbt().contains(RatsMischief.MOD_ID)
-					&& ratStack.getNbt().getCompound(RatsMischief.MOD_ID).contains("rat")
-					&& ratStack.getNbt().getCompound(RatsMischief.MOD_ID).getCompound("rat").contains("Age")
-					&& ratStack.getNbt().getCompound(RatsMischief.MOD_ID).getCompound("rat").getInt("Age") >= 0) {
+					&& ratStack.getComponents() != null
+					&& ratStack.getComponents().contains(RatsMischief.MOD_ID)
+					&& ratStack.getComponents().getTypes().contains("rat")
+					&& ratStack.getComponents().getTypes().getTypes("rat").contains("Age")
+					&& ratStack.getComponents().getTypes().getTypes("rat").getInt("Age") >= 0) {
 					if (inventory.getStack(i - 3).isOf(Items.RABBIT_HIDE) && inventory.getStack(i - 6).isOf(Items.ENDER_EYE)) {
 						spyRatStack = ratStack.copy();
 						RatItem.getRatTag(spyRatStack).putBoolean("Spy", true);
@@ -70,6 +72,16 @@ public class SpyRatCraftingRecipe extends SpecialCraftingRecipe {
 	@Override
 	public ItemStack getOutput(DynamicRegistryManager registryManager) {
 		return new ItemStack(ModItems.RAT);
+	}
+
+	@Override
+	public boolean matches(CraftingRecipeInput input, World world) {
+		return false;
+	}
+
+	@Override
+	public ItemStack craft(CraftingRecipeInput input, RegistryWrapper.WrapperLookup lookup) {
+		return null;
 	}
 
 	@Override

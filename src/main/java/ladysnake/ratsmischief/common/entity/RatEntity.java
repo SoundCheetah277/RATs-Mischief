@@ -19,6 +19,7 @@ import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
 import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.block.entity.EndGatewayBlockEntity;
+import net.minecraft.component.DataComponentTypes;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityData;
 import net.minecraft.entity.EntityType;
@@ -157,7 +158,6 @@ public class RatEntity extends TameableEntity implements GeoEntity, Angerable {
 		}
 	}
 
-	@Override
 	public EntityData initialize(ServerWorldAccess world, LocalDifficulty difficulty, SpawnReason spawnReason, @Nullable EntityData entityData, @Nullable NbtCompound entityTag) {
 		this.initEquipment(this.random, difficulty);
 
@@ -184,8 +184,8 @@ public class RatEntity extends TameableEntity implements GeoEntity, Angerable {
 	}
 
 	@Override
-	protected void initDataTracker() {
-		super.initDataTracker();
+	protected void initDataTracker(DataTracker.Builder builder) {
+		super.initDataTracker(builder);
 
 		int bound = 150;
 		if (RatsMischiefUtils.IS_WORLD_RAT_DAY) {
@@ -193,24 +193,24 @@ public class RatEntity extends TameableEntity implements GeoEntity, Angerable {
 		}
 
 		if (this.random.nextInt(bound) == 0) {
-			this.dataTracker.startTracking(TYPE, Type.GOLD.toString());
+			builder.add(TYPE, Type.GOLD.toString());
 		} else {
-			this.dataTracker.startTracking(TYPE, Type.WILD.toString());
+			builder.add(TYPE, Type.WILD.toString());
 		}
 
-		this.dataTracker.startTracking(ANGER_TIME, 0);
-		this.dataTracker.startTracking(SITTING, false);
-		this.dataTracker.startTracking(EATING, false);
-		this.dataTracker.startTracking(SNIFFING, false);
-		this.dataTracker.startTracking(COLOR, DyeColor.values()[(this.random.nextInt(DyeColor.values().length))].getName());
-		this.dataTracker.startTracking(FLYING, false);
-		this.dataTracker.startTracking(SPY, false);
-		this.dataTracker.startTracking(AROUSED, false);
-		this.dataTracker.startTracking(ATTACK_RIDING_TIME, 0);
-		this.dataTracker.startTracking(POTION_GENE, -1);
-		this.dataTracker.startTracking(SLOT, 0);
+		builder.add(ANGER_TIME, 0);
+		builder.add(SITTING, false);
+		builder.add(EATING, false);
+		builder.add(SNIFFING, false);
+		builder.add(COLOR, DyeColor.values()[(this.random.nextInt(DyeColor.values().length))].getName());
+		builder.add(FLYING, false);
+		builder.add(SPY, false);
+		builder.add(AROUSED, false);
+		builder.add(ATTACK_RIDING_TIME, 0);
+		builder.add(POTION_GENE, -1);
+		builder.add(SLOT, 0);
 
-		this.dataTracker.startTracking(PARTY_HAT, PARTY_HATS.get(this.random.nextInt(PARTY_HATS.size())).toString());
+		builder.add(PARTY_HAT, PARTY_HATS.get(this.random.nextInt(PARTY_HATS.size())).toString());
 	}
 
 	@Override
@@ -293,7 +293,7 @@ public class RatEntity extends TameableEntity implements GeoEntity, Angerable {
 			UUID ownerUuid = this.getOwnerUuid();
 			if (ownerUuid != null) {
 				ratEntity.setOwnerUuid(ownerUuid);
-				ratEntity.setTamed(true);
+				ratEntity.setTamed(true,false);
 				ratEntity.setBaby(true);
 				ratEntity.initEquipment(this.random, world.getLocalDifficulty(this.getBlockPos()));
 			}
@@ -702,8 +702,7 @@ public class RatEntity extends TameableEntity implements GeoEntity, Angerable {
 						itemStack.decrement(1);
 					}
 					if (item.getComponents() != null) {
-						this.heal(item.getComponents().getHunger());
-					}
+						this.heal(itemStack.get(DataComponentTypes.FOOD).nutrition());					}
 					return ActionResult.SUCCESS;
 				}
 
@@ -724,7 +723,7 @@ public class RatEntity extends TameableEntity implements GeoEntity, Angerable {
 			} else if (item.getComponents() != null && !this.hasAngerTime()) { // taming
 				player.getStackInHand(hand).decrement(1);
 
-				if (this.random.nextInt(Math.max(1, 6 - item.getComponents().getHunger())) == 0) {
+				if (this.random.nextInt(Math.max(1, 6 - itemStack.get(DataComponentTypes.FOOD).nutrition())) == 0) {
 					this.setOwner(player);
 					this.navigation.stop();
 					this.setTarget(null);
@@ -749,7 +748,7 @@ public class RatEntity extends TameableEntity implements GeoEntity, Angerable {
 		ItemStack ratItemStack = new ItemStack(ModItems.RAT);
 		NbtCompound nbt = new NbtCompound();
 		this.saveNbt(nbt);
-		ratItemStack.getOrCreateSubNbt(RatsMischief.MOD_ID).put("rat", nbt);
+		ratItemStack.getComponents().put("rat", nbt);
 
 		// custom name
 		if (this.hasCustomName()) {
@@ -929,12 +928,11 @@ public class RatEntity extends TameableEntity implements GeoEntity, Angerable {
 		super.onPlayerCollision(player);
 	}
 
-	@Override
 	public double getHeightOffset() {
 		if (this.getVehicle() != null) {
 			return this.getVehicle().getHeight() * 0.3f;
 		} else {
-			return super.getHeightOffset();
+			return super.getHeight();
 		}
 	}
 
@@ -1034,7 +1032,6 @@ public class RatEntity extends TameableEntity implements GeoEntity, Angerable {
 		this.action = null;
 	}
 
-	@Override
 	public EntityView method_48926() {
 		return this.getWorld();
 	}

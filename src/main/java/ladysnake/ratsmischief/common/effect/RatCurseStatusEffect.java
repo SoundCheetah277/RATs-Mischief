@@ -8,6 +8,7 @@ import net.minecraft.entity.effect.StatusEffectCategory;
 import net.minecraft.entity.effect.StatusEffectInstance;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.particle.ParticleTypes;
+import net.minecraft.registry.entry.RegistryEntry;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.sound.SoundCategory;
 import net.minecraft.sound.SoundEvents;
@@ -47,7 +48,7 @@ public class RatCurseStatusEffect extends StatusEffect {
 			}
 
 			player.playSound(SoundEvents.ENTITY_ILLUSIONER_CAST_SPELL);
-			player.addStatusEffect(new StatusEffectInstance(ModStatusEffects.RAT_CURSE_COOLDOWN, 1200, 0, false, false, true));
+			player.addStatusEffect(new StatusEffectInstance((RegistryEntry<StatusEffect>) ModStatusEffects.RAT_CURSE_COOLDOWN, 1200, 0, false, false, true));
 			//RemnantComponent.get(player).become(RemnantTypes.MORTAL);
 		}
 	}

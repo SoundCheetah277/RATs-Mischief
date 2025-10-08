@@ -44,7 +44,7 @@ public class RatSpawner implements Spawner {
 							List<VillagerEntity> villagersNearby = world.getEntitiesByType(EntityType.VILLAGER, new Box(blockPos.getX() - SPAWN_RADIUS, blockPos.getY() - SPAWN_RADIUS, blockPos.getZ() - SPAWN_RADIUS, blockPos.getX() + SPAWN_RADIUS, blockPos.getY() + SPAWN_RADIUS, blockPos.getZ() + SPAWN_RADIUS), villagerEntity -> true);
 
 							if (villagersNearby.isEmpty() && world.isRegionLoaded(blockPos.getX() - 10, blockPos.getY() - 10, blockPos.getZ() - 10, blockPos.getX() + 10, blockPos.getY() + 10, blockPos.getZ() + 10)) {
-								if (SpawnHelper.spawn(SpawnRestriction.Location.ON_GROUND, world, blockPos, ModEntities.RAT)) {
+								if (SpawnHelper.spawn(SpawnRestriction.SpawnPredicate.ON_GROUND, world, blockPos, ModEntities.RAT)) {
 									for (int i = 0; i <= random.nextInt(5); i++) {
 										this.spawnInHouse(world, blockPos);
 									}
@@ -80,6 +80,11 @@ public class RatSpawner implements Spawner {
 			world.spawnEntityAndPassengers(catEntity);
 			return 1;
 		}
+	}
+
+	@Override
+	public void setEntityType(EntityType<?> type, Random random) {
+
 	}
 }
 

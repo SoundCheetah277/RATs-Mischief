@@ -176,8 +176,8 @@ public abstract class ArmorFeatureRendererMixin<T extends LivingEntity, M extend
 
 	@Unique
 	private void renderRatArmorParts(MatrixStack matrices, VertexConsumerProvider vertexConsumers, int light, ArmorItem item, PlayerEntityModel<LivingEntity> model, boolean legs) {
-		VertexConsumer vertexConsumer = ItemRenderer.getArmorGlintConsumer(vertexConsumers, RenderLayer.getArmorCutoutNoCull(this.getRatArmorTexture(item, legs)), false, false);
-		model.render(matrices, vertexConsumer, light, OverlayTexture.DEFAULT_UV, 1.0f, 1.0f, 1.0f, 1.0F);
+		VertexConsumer vertexConsumer = ItemRenderer.getArmorGlintConsumer(vertexConsumers, RenderLayer.getArmorCutoutNoCull(this.getRatArmorTexture(item, legs)), false);
+		model.render(matrices, vertexConsumer, light, OverlayTexture.DEFAULT_UV);
 	}
 
 	@Unique
@@ -187,7 +187,7 @@ public abstract class ArmorFeatureRendererMixin<T extends LivingEntity, M extend
 
 	@Unique
 	private Identifier getRatArmorTexture(ArmorItem item, boolean legs) {
-		String string = "textures/models/armor/" + item.getMaterial().getName() + "_layer_" + (legs ? 2 : this.slim ? "1_slim" : 1) + ".png";
+		String string = "textures/models/armor/" + item.getMaterial().getType() + "_layer_" + (legs ? 2 : this.slim ? "1_slim" : 1) + ".png";
 		if (this.slim) {
 			return SLIM_ARMOR_TEXTURE_CACHE.computeIfAbsent(string, RatsMischief::id);
 		} else {

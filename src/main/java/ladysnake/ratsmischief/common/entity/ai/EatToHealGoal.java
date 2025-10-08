@@ -49,7 +49,6 @@ public class EatToHealGoal extends Goal {
 				if (this.eatingTicks <= 0) {
 					if (this.rat.getMainHandStack().getItem() instanceof PotionItem) {
 						ItemStack stack = this.rat.getMainHandStack();
-
 						if (!this.rat.getWorld().isClient()) {
 							List<StatusEffectInstance> list = Potions.getPotionEffects(stack);
 
