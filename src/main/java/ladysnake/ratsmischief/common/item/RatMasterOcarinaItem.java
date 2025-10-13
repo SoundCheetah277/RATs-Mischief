@@ -35,7 +35,7 @@ public class RatMasterOcarinaItem extends Item implements IClickConsumingItem {
 	}
 
 	public static Action getAction(ItemStack stack) {
-		NbtCompound compound = stack.getOrCreateNbt();
+		NbtCompound compound = stack.getComponents();
 		return Action.values()[MialeeMath.clampLoop(compound.getInt("action"), 0, Action.values().length)];
 	}
 
@@ -56,7 +56,7 @@ public class RatMasterOcarinaItem extends Item implements IClickConsumingItem {
 			}
 		});
 		ItemStack stack = user.getStackInHand(hand);
-		world.playSoundFromEntity(null, user, SoundEvents.BLOCK_NOTE_BLOCK_FLUTE.value(), user.getSoundCategory(), 1f, 0.5f + (stack.getOrCreateNbt().getInt("action") / 4f));
+		world.playSoundFromEntity(null, user, SoundEvents.BLOCK_NOTE_BLOCK_FLUTE.value(), user.getSoundCategory(), 1f, 0.5f + (stack.getComponents().getInt("action") / 4f));
 		return TypedActionResult.success(user.getStackInHand(hand));
 	}
 
@@ -83,7 +83,7 @@ public class RatMasterOcarinaItem extends Item implements IClickConsumingItem {
 	@Override
 	public void mialeeMisc$doAttack(ServerPlayerEntity serverPlayerEntity) {
 		ItemStack stack = serverPlayerEntity.getMainHandStack();
-		NbtCompound compound = stack.getOrCreateNbt();
+		NbtCompound compound = stack.getComponents();
 		compound.putInt("action", MialeeMath.clampLoop(compound.getInt("action") + (serverPlayerEntity.isSneaking() ? -1 : 1), 0, Action.values().length));
 	}
 

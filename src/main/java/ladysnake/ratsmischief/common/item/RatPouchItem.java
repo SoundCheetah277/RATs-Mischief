@@ -42,8 +42,8 @@ public class RatPouchItem extends Item {
 	@Override
 	public TypedActionResult<ItemStack> use(World world, PlayerEntity user, Hand hand) {
 		if (!world.isClient() && user.isSneaking()) {
-			if (user.getStackInHand(hand).getOrCreateSubNbt(RatsMischief.MOD_ID).getFloat("filled") == 1f) {
-				for (NbtElement ratTag : user.getStackInHand(hand).getOrCreateSubNbt(RatsMischief.MOD_ID).getList("rats", NbtType.COMPOUND)) {
+			if (user.getStackInHand(hand).getComponents().getFloat("filled") == 1f) {
+				for (NbtElement ratTag : user.getStackInHand(hand).getComponents().getList("rats", NbtType.COMPOUND)) {
 					RatEntity rat = ModEntities.RAT.create(world);
 					rat.readNbt((NbtCompound) ratTag);
 					rat.updatePosition(user.getX(), user.getY(), user.getZ());
@@ -51,12 +51,12 @@ public class RatPouchItem extends Item {
 					world.spawnEntity(rat);
 				}
 
-				user.getStackInHand(hand).getOrCreateSubNbt(RatsMischief.MOD_ID).put("rats", new NbtList());
-				user.getStackInHand(hand).getOrCreateSubNbt(RatsMischief.MOD_ID).putFloat("filled", 0F);
+				user.getStackInHand(hand).getComponents().put("rats", new NbtList());
+				user.getStackInHand(hand).getComponents().putFloat("filled", 0F);
 
 				return TypedActionResult.success(user.getStackInHand(hand));
 			} else {
-				NbtList NbtList = user.getStackInHand(hand).getOrCreateSubNbt(RatsMischief.MOD_ID).getList("rats", NbtType.COMPOUND);
+				NbtList NbtList = user.getStackInHand(hand).getComponents().getList("rats", NbtType.COMPOUND);
 
 				List<RatEntity> closestTamedRats = world.getEntitiesByClass(RatEntity.class, user.getBoundingBox().expand(16.0D), CLOSEST_RAT_PREDICATE);
 				List<RatEntity> closestOwnedRats = closestTamedRats.stream().filter(ratEntity -> ratEntity.getOwnerUuid() != null && ratEntity.getOwnerUuid().equals(user.getUuid())).collect(Collectors.toList());
@@ -75,8 +75,8 @@ public class RatPouchItem extends Item {
 						}
 					}
 
-					user.getStackInHand(hand).getOrCreateSubNbt(RatsMischief.MOD_ID).put("rats", NbtList);
-					user.getStackInHand(hand).getOrCreateSubNbt(RatsMischief.MOD_ID).putFloat("filled", 1F);
+					user.getStackInHand(hand).getComponents().put("rats", NbtList);
+					user.getStackInHand(hand).getComponents().putFloat("filled", 1F);
 					return TypedActionResult.success(user.getStackInHand(hand));
 				} else {
 					return TypedActionResult.fail(user.getStackInHand(hand));
@@ -89,16 +89,16 @@ public class RatPouchItem extends Item {
 
 	@Override
 	public ActionResult useOnEntity(ItemStack stack, PlayerEntity user, LivingEntity entity, Hand hand) {
-		NbtList NbtList = user.getStackInHand(hand).getOrCreateSubNbt(RatsMischief.MOD_ID).getList("rats", NbtElement.COMPOUND_TYPE);
+		NbtList NbtList = user.getStackInHand(hand).getComponents().getList("rats", NbtElement.COMPOUND_TYPE);
 
 		if (NbtList.size() < this.size && entity instanceof RatEntity rat && rat.getOwnerUuid() != null && rat.getOwnerUuid().equals(user.getUuid())) {
 			NbtCompound NbtCompound = new NbtCompound();
 			entity.saveNbt(NbtCompound);
 			NbtList.add(NbtCompound);
-			user.getStackInHand(hand).getOrCreateSubNbt(RatsMischief.MOD_ID).put("rats", NbtList);
+			user.getStackInHand(hand).getComponents().put("rats", NbtList);
 			rat.playSpawnEffects();
 			entity.remove(Entity.RemovalReason.DISCARDED);
-			user.getStackInHand(hand).getOrCreateSubNbt(RatsMischief.MOD_ID).putFloat("filled", 1F);
+			user.getStackInHand(hand).getComponents().putFloat("filled", 1F);
 
 			return ActionResult.SUCCESS;
 		} else {
@@ -108,7 +108,7 @@ public class RatPouchItem extends Item {
 
 	@Override
 	public void appendTooltip(ItemStack stack, @Nullable World world, List<Text> tooltip, TooltipContext context) {
-		var NbtList = stack.getOrCreateSubNbt(RatsMischief.MOD_ID).getList("rats", NbtElement.COMPOUND_TYPE);
+		var NbtList = stack.getComponents().getList("rats", NbtElement.COMPOUND_TYPE);
 
 		tooltip.add(Text.translatable("item.ratsmischief.rat_pouch.tooltip.capacity", NbtList.size(), this.size).setStyle(EMPTY.withColor(Formatting.GRAY)));
 

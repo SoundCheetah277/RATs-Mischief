@@ -44,7 +44,7 @@ public class RatMasterMaskItem extends TrinketItem {
 	}
 
 	public static void incrementOffset(ItemStack stack) {
-		NbtCompound compound = stack.getOrCreateNbt();
+		NbtCompound compound = stack.getComponents();
 		compound.putInt("offset", MialeeMath.clampLoop(compound.getInt("offset") + 1, -2, 3));
 	}
 
