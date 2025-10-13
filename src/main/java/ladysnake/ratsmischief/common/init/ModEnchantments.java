@@ -16,8 +16,8 @@ import java.util.Map;
 public interface ModEnchantments {
 	RegistryKey<Enchantment> RAT_CURSE = RegistryKey.of(RegistryKeys.ENCHANTMENT, RatsMischief.id("rat_curse"));
 	Map<Enchantment, Identifier> ENCHANTMENTS = new LinkedHashMap<>();
-
-	Enchantment RAT_CURSE = createEnchantment("rat_curse", new RatCurseEnchantment(Enchantments.Rarity.VERY_RARE, EquipmentSlot.values()));
+//TODO
+	//Enchantment RAT_CURSE = createEnchantment("rat_curse", new RatCurseEnchantment(ENCHANTMENTS.Rarity.VERY_RARE, EquipmentSlot.values()));
 
 	@SuppressWarnings("SameParameterValue")
 	private static Enchantment createEnchantment(String name, Enchantment entity) {
@@ -26,6 +26,6 @@ public interface ModEnchantments {
 	}
 
 	static void initialize() {
-		ENCHANTMENTS.keySet().forEach(entityType -> Registry.register(Registries.ENCHANTMENT, ENCHANTMENTS.get(entityType), entityType));
+		ENCHANTMENTS.keySet().forEach(entityType -> Registry.register(Registries.ENCHANTMENT_PROVIDER_TYPE, ENCHANTMENTS.get(entityType), entityType));
 	}
 }

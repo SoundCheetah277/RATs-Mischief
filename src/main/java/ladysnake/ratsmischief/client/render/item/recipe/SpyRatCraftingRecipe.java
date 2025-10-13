@@ -13,7 +13,6 @@ import net.minecraft.recipe.book.CraftingRecipeCategory;
 import net.minecraft.recipe.input.CraftingRecipeInput;
 import net.minecraft.registry.DynamicRegistryManager;
 import net.minecraft.registry.RegistryWrapper;
-import net.minecraft.util.Identifier;
 import net.minecraft.world.World;
 
 public class SpyRatCraftingRecipe extends SpecialCraftingRecipe {
@@ -21,7 +20,7 @@ public class SpyRatCraftingRecipe extends SpecialCraftingRecipe {
 	private static final Ingredient RABBIT_HIDE = Ingredient.ofItems(Items.RABBIT_HIDE);
 	private static final Ingredient ENDER_EYE = Ingredient.ofItems(Items.ENDER_EYE);
 
-	public SpyRatCraftingRecipe(Identifier id, CraftingRecipeCategory craftingCategory) {
+	public SpyRatCraftingRecipe(CraftingRecipeCategory craftingCategory) {
 		super(id, craftingCategory);
 	}
 
@@ -55,8 +54,8 @@ public class SpyRatCraftingRecipe extends SpecialCraftingRecipe {
 					&& ratStack.getComponents() != null
 					&& ratStack.getComponents().contains(RatsMischief.MOD_ID)
 					&& ratStack.getComponents().getTypes().contains("rat")
-					&& ratStack.getComponents().getTypes().getTypes("rat").contains("Age")
-					&& ratStack.getComponents().getTypes().getTypes("rat").getInt("Age") >= 0) {
+					&& ratStack.getComponents().getTypes().getClass().contains("Age")
+					&& ratStack.getComponents().getTypes().getClass().getInt("Age") >= 0) {
 					if (inventory.getStack(i - 3).isOf(Items.RABBIT_HIDE) && inventory.getStack(i - 6).isOf(Items.ENDER_EYE)) {
 						spyRatStack = ratStack.copy();
 						RatItem.getRatTag(spyRatStack).putBoolean("Spy", true);

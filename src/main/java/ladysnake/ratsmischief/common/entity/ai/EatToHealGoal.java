@@ -67,8 +67,8 @@ public class EatToHealGoal extends Goal {
 						if (this.rat.getMainHandStack().getUseAction() == UseAction.DRINK) {
 							this.rat.dropStack(new ItemStack(Items.GLASS_BOTTLE));
 						}
-						this.rat.heal((float) this.rat.getMainHandStack().getItem().getFoodComponent().getHunger());
-						this.rat.getMainHandStack().getItem().getFoodComponent().getStatusEffects().forEach(statusEffectInstanceFloatPair -> {
+						this.rat.heal((float) this.rat.getMainHandStack().getItem().getComponents().getHunger());
+						this.rat.getMainHandStack().getItem().getComponents().getStatusEffects().forEach(statusEffectInstanceFloatPair -> {
 							this.rat.addStatusEffect(statusEffectInstanceFloatPair.getFirst());
 						});
 						this.rat.getMainHandStack().getItem().finishUsing(this.rat.getMainHandStack(), this.rat.getWorld(), this.rat);

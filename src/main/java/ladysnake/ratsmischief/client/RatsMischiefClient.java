@@ -6,14 +6,18 @@ import ladysnake.ratsmischief.common.init.ModEntities;
 import ladysnake.ratsmischief.common.init.ModItems;
 import net.fabricmc.api.ClientModInitializer;
 import net.fabricmc.fabric.api.client.model.loading.v1.ModelLoadingPlugin;
+import net.fabricmc.fabric.api.client.rendering.v1.BuiltinItemRendererRegistry;
 import net.fabricmc.fabric.api.client.rendering.v1.EntityModelLayerRegistry;
 import net.fabricmc.fabric.api.client.rendering.v1.EntityRendererRegistry;
+import net.fabricmc.fabric.api.resource.ResourceManagerHelper;
 import net.minecraft.client.item.ModelPredicateProviderRegistry;
 import net.minecraft.client.model.Dilation;
 import net.minecraft.client.model.TexturedModelData;
+import net.minecraft.client.render.RenderLayer;
 import net.minecraft.client.render.entity.model.EntityModelLayer;
 import net.minecraft.client.render.entity.model.PlayerEntityModel;
 import net.minecraft.client.util.ModelIdentifier;
+import net.minecraft.resource.ResourceType;
 import net.minecraft.util.Identifier;
 
 public class RatsMischiefClient implements ClientModInitializer {
@@ -25,7 +29,7 @@ public class RatsMischiefClient implements ClientModInitializer {
 	public static final ModelIdentifier RAT_MASTER_MASK_WORN = new ModelIdentifier(RatsMischief.MOD_ID, "rat_master_mask_worn", "inventory");
 
 	static {
-		ModelPredicateProviderRegistry.register(ModItems.RAT_MASTER_OCARINA, Identifier.of("action"), (stack, world, entity, seed) -> stack.getOrCreateNbt().getInt("action") / 4f);
+		ModelPredicateProviderRegistry.register(ModItems.RAT_MASTER_OCARINA, Identifier.of("action"), (stack, world, entity, seed) -> stack.getComponents().getInt("action") / 4f);
 	}
 
 	@Override
@@ -39,21 +43,21 @@ public class RatsMischiefClient implements ClientModInitializer {
 
 		EntityRendererRegistry.register(ModEntities.RAT, RatEntityRenderer::new);
 
-//		RatMasterMaskItemRenderer inventoryItemRenderer = new RatMasterMaskItemRenderer();
-//		ResourceManagerHelper.get(ResourceType.CLIENT_RESOURCES).registerReloadListener(inventoryItemRenderer);
-//		BuiltinItemRendererRegistry.INSTANCE.register(ModItems.RAT_MASTER_MASK, inventoryItemRenderer);
+		RatMasterMaskItemRenderer inventoryItemRenderer = new RatMasterMaskItemRenderer();
+		ResourceManagerHelper.get(ResourceType.CLIENT_RESOURCES).registerReloadListener(inventoryItemRenderer);
+		BuiltinItemRendererRegistry.INSTANCE.register(ModItems.RAT_MASTER_MASK, inventoryItemRenderer);
 		ModelLoadingPlugin.register(pluginContext -> {
             pluginContext.addModels(RAT_MASTER_MASK);
             pluginContext.addModels(RAT_MASTER_MASK_WORN);
         });
 
 		// model predicates
-		ModelPredicateProviderRegistry.register(RatsMischief.id("filled"), (itemStack, world, livingEntity, seed) -> itemStack.getOrCreateSubNbt(RatsMischief.MOD_ID).getFloat("filled"));
+		ModelPredicateProviderRegistry.register(RatsMischief.id("filled"), (itemStack, world, livingEntity, seed) -> itemStack.getComponents().getFloat("filled"));
 
-//		// block render layer map
-//		BlockRenderLayerMap.put(RenderLayer.getCutout(), ModBlock.MOD_BLOCK);
+		// block render layer map
+		BlockRenderLayerMap.put(RenderLayer.getCutout(), ModBlock.MOD_BLOCK);
 
-//		// entity renderer registration
-//		EntityRendererRegistry.register(ModEntities.MOD_ENTITY, ModEntityRenderer::new);
+		// entity renderer registration
+		EntityRendererRegistry.register(ModEntities.ENTITIES, ModEntityRenderer::new);
 	}
 }

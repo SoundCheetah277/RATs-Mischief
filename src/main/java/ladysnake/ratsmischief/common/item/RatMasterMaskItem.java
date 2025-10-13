@@ -37,10 +37,10 @@ public class RatMasterMaskItem extends TrinketItem {
 	}
 
 	public static int getOffset(ItemStack stack) {
-		if (stack.getNbt() == null) {
+		if (stack.getComponents() == null) {
 			return 0;
 		}
-		return stack.getNbt().getInt("offset");
+		return stack.getComponents().getInt("offset");
 	}
 
 	public static void incrementOffset(ItemStack stack) {
@@ -58,8 +58,8 @@ public class RatMasterMaskItem extends TrinketItem {
 		tooltip.add(Text.translatable("item.ratsmischief.rat_master_mask.desc1").formatted(Formatting.GRAY));
 		tooltip.add(Text.translatable("item.ratsmischief.rat_master_friendly_fire").formatted(Formatting.GRAY));
 		tooltip.add(Text.translatable("item.ratsmischief.rat_master_mask.desc.offset1").formatted(Formatting.GRAY));
-		if (stack.getNbt() != null) {
-			tooltip.add(Text.translatable("item.ratsmischief.rat_master_mask.desc.offset2", stack.getNbt().getInt("offset")).formatted(Formatting.GRAY));
+		if (stack.getComponents() != null) {
+			tooltip.add(Text.translatable("item.ratsmischief.rat_master_mask.desc.offset2", stack.getComponents().getInt("offset")).formatted(Formatting.GRAY));
 		}
 		super.appendTooltip(stack, world, tooltip, context);
 	}

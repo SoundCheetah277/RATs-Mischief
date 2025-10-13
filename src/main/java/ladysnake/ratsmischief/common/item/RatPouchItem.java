@@ -1,6 +1,5 @@
 package ladysnake.ratsmischief.common.item;
 
-import ladysnake.ratsmischief.common.RatsMischief;
 import ladysnake.ratsmischief.common.entity.RatEntity;
 import ladysnake.ratsmischief.common.init.ModEntities;
 import ladysnake.ratsmischief.mialeemisc.util.MialeeText;
@@ -108,7 +107,7 @@ public class RatPouchItem extends Item {
 
 	@Override
 	public void appendTooltip(ItemStack stack, @Nullable World world, List<Text> tooltip, TooltipContext context) {
-		var NbtList = stack.getComponents().getList("rats", NbtElement.COMPOUND_TYPE);
+		var NbtList = stack.getComponents().getClass();
 
 		tooltip.add(Text.translatable("item.ratsmischief.rat_pouch.tooltip.capacity", NbtList.size(), this.size).setStyle(EMPTY.withColor(Formatting.GRAY)));
 

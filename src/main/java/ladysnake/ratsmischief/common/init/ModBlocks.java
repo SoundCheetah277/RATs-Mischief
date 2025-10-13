@@ -16,7 +16,7 @@ import java.util.Map;
 public interface ModBlocks {
 	Map<Block, Identifier> BLOCKS = new LinkedHashMap<>();
 
-	Block MOD_BLOCK = createBlock("mod_block", new ModBlocks(BLOCKS.of(BLOCKS.METAL, MapColor.DEEPSLATE_GRAY).strength(-1.0F, 3600000.0F).sounds(BlockSoundGroup.COPPER)), true);
+	Block MOD_BLOCK = createBlock("mod_block", new ModBlocks(Map.of(BLOCKS, MapColor.DEEPSLATE_GRAY).strength(-1.0F, 3600000.0F).sounds(BlockSoundGroup.COPPER)), true);
 
 	static void initialize() {
 		BLOCKS.keySet().forEach(block -> Registry.register(Registries.BLOCK, BLOCKS.get(block), block));
