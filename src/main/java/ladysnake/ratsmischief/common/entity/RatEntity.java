@@ -748,7 +748,7 @@ public class RatEntity extends TameableEntity implements GeoEntity, Angerable {
 		ItemStack ratItemStack = new ItemStack(ModItems.RAT);
 		NbtCompound nbt = new NbtCompound();
 		this.saveNbt(nbt);
-		ratItemStack.getComponents().put("rat", nbt);
+		ratItemStack.set(DataComponentTypes.CUSTOM_DATA, NbtCompound.of(nbt));
 
 		// custom name
 		if (this.hasCustomName()) {
@@ -856,7 +856,7 @@ public class RatEntity extends TameableEntity implements GeoEntity, Angerable {
 		target.timeUntilRegen = 0;
 		if (target.damage(ModDamageTypes.ratDamage(this), damage)) {
 			if (this.getPotionGene() != null && target instanceof LivingEntity livingEntity) {
-				livingEntity.addStatusEffect(new StatusEffectInstance(this.getPotionGene(), 5 * 20));
+				livingEntity.addStatusEffect(new StatusEffectInstance(Registries.STATUS_EFFECT.getEntry(this.getPotionGene()), 5 * 20));
 			}
 			this.applyDamageEffects(this, target);
 			this.onAttacking(target);

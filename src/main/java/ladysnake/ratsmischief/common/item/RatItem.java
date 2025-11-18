@@ -6,6 +6,7 @@ import ladysnake.ratsmischief.common.entity.RatEntity;
 import ladysnake.ratsmischief.common.init.ModEntities;
 import ladysnake.ratsmischief.mialeemisc.util.MialeeText;
 import net.minecraft.client.render.item.BuiltinModelItemRenderer;
+import net.minecraft.component.DataComponentTypes;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.item.Item;
@@ -77,7 +78,7 @@ public class RatItem extends Item implements GeoItem {
 			RatEntity rat = new RatEntity(ModEntities.RAT, world);
 			NbtCompound nbt = new NbtCompound();
 			rat.saveNbt(nbt);
-			stack.getComponents().put("rat", nbt);
+			stack.set(DataComponentTypes.CUSTOM_DATA, NbtCompound.of(nbt));
 			ratTag = stack.getComponents().getCompound("rat");
 		}
 		return ratTag;

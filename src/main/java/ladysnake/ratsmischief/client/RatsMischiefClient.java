@@ -1,6 +1,7 @@
 package ladysnake.ratsmischief.client;
 
 import ladysnake.ratsmischief.client.render.entity.RatEntityRenderer;
+import ladysnake.ratsmischief.client.render.item.RatMasterMaskItemRenderer;
 import ladysnake.ratsmischief.common.RatsMischief;
 import ladysnake.ratsmischief.common.init.ModEntities;
 import ladysnake.ratsmischief.common.init.ModItems;
@@ -25,11 +26,11 @@ public class RatsMischiefClient implements ClientModInitializer {
 	public static final EntityModelLayer RAT_MASTER_ARMOR_OUTER_LAYER = new EntityModelLayer(RatsMischief.id("rat_master_outer_layer"), "main");
 	public static final EntityModelLayer RAT_MASTER_ARMOR_OUTER_LAYER_SLIM = new EntityModelLayer(RatsMischief.id("rat_master_outer_layer_slim"), "main");
 
-	public static final ModelIdentifier RAT_MASTER_MASK = new ModelIdentifier(RatsMischief.MOD_ID, "rat_master_mask", "inventory");
-	public static final ModelIdentifier RAT_MASTER_MASK_WORN = new ModelIdentifier(RatsMischief.MOD_ID, "rat_master_mask_worn", "inventory");
+	public static final ModelIdentifier RAT_MASTER_MASK = new ModelIdentifier(Identifier.of(RatsMischief.MOD_ID, "rat_master_mask"), "inventory");
+	public static final ModelIdentifier RAT_MASTER_MASK_WORN = new ModelIdentifier(Identifier.of(RatsMischief.MOD_ID, "rat_master_mask_worn"), "inventory");
 
 	static {
-		ModelPredicateProviderRegistry.register(ModItems.RAT_MASTER_OCARINA, Identifier.of("action"), (stack, world, entity, seed) -> stack.getComponents().getInt("action") / 4f);
+		ModelPredicateProviderRegistry.register(ModItems.RAT_MASTER_OCARINA, Identifier.of("action"), (stack, world, entity, seed) -> stack.get("action") / 4f);
 	}
 
 	@Override

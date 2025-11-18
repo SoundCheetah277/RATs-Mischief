@@ -53,7 +53,7 @@ public class EatToHealGoal extends Goal {
 							List<StatusEffectInstance> list = Potions.getPotionEffects(stack);
 
 							for (StatusEffectInstance statusEffectInstance : list) {
-								if (statusEffectInstance.getEffectType().isInstant()) {
+								if (statusEffectInstance.getEffectType().value().isInstant()) {
 									statusEffectInstance.getEffectType().applyInstantEffect(this.rat, this.rat, this.rat, statusEffectInstance.getAmplifier(), 1.0D);
 								} else {
 									this.rat.addStatusEffect(new StatusEffectInstance(statusEffectInstance));
