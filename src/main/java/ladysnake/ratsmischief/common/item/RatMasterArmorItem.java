@@ -92,7 +92,7 @@ public class RatMasterArmorItem extends ArmorItem {
 		compound.putInt("type", MialeeMath.clampLoop(compound.getInt("type") + 1, 1, MasterArmorBoost.values().length));
 	}
 
-	public void appendTooltip(ItemStack stack, @Nullable World world, List<Text> tooltip, TooltipContext context) {
+	/*public void appendTooltip(ItemStack stack, @Nullable World world, List<Text> tooltip, TooltipContext context) {
 		switch (getType(stack)) {
 			case RESISTANCE ->
 				tooltip.add(MialeeText.withColor(Text.translatable("item.ratsmischief.rat_master_armor.tooltip.resistance"), 10044730));
@@ -103,7 +103,7 @@ public class RatMasterArmorItem extends ArmorItem {
 		}
 		RatsMischiefClientHelper.addSetBonus(tooltip);
 		super.appendTooltip(stack, world, tooltip, context);
-	}
+	}*/
 
 	public enum MasterArmorBoost {
 		NONE,

@@ -1,6 +1,8 @@
 package ladysnake.ratsmischief.common.item;
 
+import ladysnake.ratsmischief.common.init.ModDataComponents;
 import net.minecraft.item.ItemStack;
+import net.minecraft.item.tooltip.TooltipType;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.text.Text;
 import net.minecraft.util.Formatting;
@@ -8,6 +10,7 @@ import net.minecraft.world.World;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
+import java.util.function.Consumer;
 
 public class RatMasterHoodItem extends RatMasterArmorItem {
 	public RatMasterHoodItem(RatMasterArmorMaterial material, Type slot, Settings settings) {
@@ -15,7 +18,7 @@ public class RatMasterHoodItem extends RatMasterArmorItem {
 	}
 
 	public static boolean isHidden(ItemStack stack) {
-		return stack.getComponents().getBoolean("hidden");
+		return Boolean.TRUE.equals(stack.get(ModDataComponents.USE_ALTERNATE_ARMOR));
 	}
 
 	@Override
@@ -29,8 +32,7 @@ public class RatMasterHoodItem extends RatMasterArmorItem {
 	}
 
 	@Override
-	public void appendTooltip(ItemStack stack, @Nullable World world, List<Text> tooltip, TooltipContext context) {
-		tooltip.add(Text.translatable("item.ratsmischief.rat_master_hood.tooltip." + stack.getComponents().getBoolean("hidden")).formatted(Formatting.GRAY));
-		super.appendTooltip(stack, world, tooltip, context);
+	public void appendTooltip(ItemStack stack, TooltipContext context, TooltipDisplayComponent displayComponent, Consumer<Text> textConsumer, TooltipType type) {
+		textConsumer.accept(Text.translatable("item.ratsmischief.rat_master_hood.tooltip." + isHidden(stack)).formatted(Formatting.GRAY));
 	}
 }

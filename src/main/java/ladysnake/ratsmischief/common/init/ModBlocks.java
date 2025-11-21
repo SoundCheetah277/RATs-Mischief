@@ -1,5 +1,5 @@
 package ladysnake.ratsmischief.common.init;
-
+/*
 import ladysnake.ratsmischief.common.RatsMischief;
 import net.minecraft.block.Block;
 import net.minecraft.block.MapColor;
@@ -30,3 +30,5 @@ public interface ModBlocks {
 		return block;
 	}
 }
+*/
+//apparently unused

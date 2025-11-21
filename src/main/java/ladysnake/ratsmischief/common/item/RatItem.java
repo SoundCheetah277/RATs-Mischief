@@ -1,11 +1,8 @@
 package ladysnake.ratsmischief.common.item;
 
 import ladysnake.ratsmischief.client.render.item.RatItemRenderer;
-import ladysnake.ratsmischief.common.RatsMischief;
 import ladysnake.ratsmischief.common.entity.RatEntity;
 import ladysnake.ratsmischief.common.init.ModEntities;
-import ladysnake.ratsmischief.mialeemisc.util.MialeeText;
-import net.minecraft.client.render.item.BuiltinModelItemRenderer;
 import net.minecraft.component.DataComponentTypes;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.PlayerInventory;
@@ -13,13 +10,9 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.ItemUsageContext;
 import net.minecraft.nbt.NbtCompound;
-import net.minecraft.registry.Registries;
-import net.minecraft.text.Text;
 import net.minecraft.util.ActionResult;
 import net.minecraft.util.DyeColor;
-import net.minecraft.util.Formatting;
 import net.minecraft.util.Hand;
-import net.minecraft.util.Identifier;
 import net.minecraft.util.TypedActionResult;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
@@ -31,18 +24,13 @@ import software.bernie.geckolib.animatable.instance.AnimatableInstanceCache;
 import software.bernie.geckolib.animation.AnimatableManager;
 import software.bernie.geckolib.animation.AnimationController;
 import software.bernie.geckolib.animation.PlayState;
+import software.bernie.geckolib.renderer.GeoItemRenderer;
 import software.bernie.geckolib.util.GeckoLibUtil;
 
-import java.util.List;
 import java.util.function.Consumer;
-import java.util.function.Supplier;
-
-import static net.minecraft.text.Style.EMPTY;
 
 public class RatItem extends Item implements GeoItem {
 	private final AnimatableInstanceCache cache = GeckoLibUtil.createInstanceCache(this);
-	private final Supplier<Object> renderProvider = GeoItem.makeRenderer(this);
-
 	public RatItem(Settings settings) {
 		super(settings);
 		SingletonGeoAnimatable.registerSyncedAnimatable(this);
@@ -60,7 +48,7 @@ public class RatItem extends Item implements GeoItem {
 	}
 
 	public static String getRatName(ItemStack stack) {
-		return stack.hasCustomName() ? stack.getName().getString() : null;
+		return stack.get(DataComponentTypes.CUSTOM_NAME) != null ? stack.getName().getString() : null;
 	}
 
 	@Nullable
@@ -79,7 +67,7 @@ public class RatItem extends Item implements GeoItem {
 			NbtCompound nbt = new NbtCompound();
 			rat.saveNbt(nbt);
 			stack.set(DataComponentTypes.CUSTOM_DATA, NbtCompound.of(nbt));
-			ratTag = stack.getComponents().getCompound("rat");
+			ratTag = (NbtCompound) stack.getComponents().getTypes();
 		}
 		return ratTag;
 	}
@@ -103,28 +91,22 @@ public class RatItem extends Item implements GeoItem {
 	}
 
 	@Override
-	public void createRenderer(Consumer<Object> consumer) {
+	public void createGeoRenderer(Consumer<GeoRenderProvider> consumer) {
 		consumer.accept(new GeoRenderProvider() {
 			private RatItemRenderer renderer;
 
 			@Override
-			public BuiltinModelItemRenderer getCustomRenderer() {
-				if (this.renderer == null)
+			public GeoItemRenderer<?> getGeoItemRenderer() {
+				if(renderer == null){
 					renderer = new RatItemRenderer();
-
+				}
 				return renderer;
 			}
 		});
 	}
-
 	@Override
 	public AnimatableInstanceCache getAnimatableInstanceCache() {
 		return this.cache;
-	}
-
-	@Override
-	public Supplier<Object> getRenderProvider() {
-		return this.renderProvider;
 	}
 
 	@Override
@@ -140,7 +122,7 @@ public class RatItem extends Item implements GeoItem {
 			if (rat == null) {
 				return TypedActionResult.fail(user.getStackInHand(hand));
 			}
-			rat.sendFlying(user, user.getPitch(), user.getYaw(), user.getRoll(), 3f, 1f);
+			rat.sendFlying(user, user.getPitch(), user.getYaw(), 0, 3f, 1f);
 			world.spawnEntity(rat);
 			user.setStackInHand(hand, ItemStack.EMPTY);
 			return TypedActionResult.success(user.getStackInHand(hand));
@@ -171,7 +153,7 @@ public class RatItem extends Item implements GeoItem {
 			rat.setSitting(false);
 
 			// custom name
-			if (ratItemStack.hasCustomName()) {
+			if (ratItemStack.contains(DataComponentTypes.CUSTOM_NAME)) {
 				rat.setCustomName(ratItemStack.getName());
 			}
 
@@ -181,7 +163,7 @@ public class RatItem extends Item implements GeoItem {
 		return rat;
 	}
 
-	@Override
+	/*@Override
 	public void appendTooltip(ItemStack stack, @Nullable World world, List<Text> tooltip, TooltipContext context) {
 		var ratTag = getRatTag(stack, world);
 		var ratType = Text.translatable("type.ratsmischief." + getRatType(stack).name().toLowerCase());
@@ -211,5 +193,5 @@ public class RatItem extends Item implements GeoItem {
 		}
 
 		super.appendTooltip(stack, world, tooltip, context);
-	}
+	}*/
 }

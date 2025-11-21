@@ -99,6 +99,8 @@ import software.bernie.geckolib.animatable.GeoEntity;
 import software.bernie.geckolib.animatable.instance.AnimatableInstanceCache;
 import software.bernie.geckolib.animation.*;
 import software.bernie.geckolib.util.GeckoLibUtil;
+
+import javax.xml.crypto.Data;
 import java.util.ArrayList;
 import java.util.EnumSet;
 import java.util.List;
@@ -494,17 +496,18 @@ public class RatEntity extends TameableEntity implements GeoEntity, Angerable {
 			this.jumping = true;
 			HitResult hitResult = ProjectileUtil.getCollision(this, this::canHit);
 			boolean bl = false;
+			//TODO Even the source code don't even know a fix, comment is still a solution
 			if (hitResult.getType() == HitResult.Type.BLOCK) {
 				BlockPos blockPos = ((BlockHitResult) hitResult).getBlockPos();
 				BlockState blockState = this.getWorld().getBlockState(blockPos);
 				if (blockState.isOf(Blocks.NETHER_PORTAL)) {
-					this.setInNetherPortal(blockPos);
+					//this.setInNetherPortal(blockPos);
 					bl = true;
 				} else if (blockState.isOf(Blocks.END_GATEWAY)) {
 					BlockEntity blockEntity = this.getWorld().getBlockEntity(blockPos);
-					if (blockEntity instanceof EndGatewayBlockEntity && EndGatewayBlockEntity.canTeleport(this)) {
+					/*if (blockEntity instanceof EndGatewayBlockEntity && EndGatewayBlockEntity.canTeleport(this)) {
 						EndGatewayBlockEntity.tryTeleportingEntity(this.getWorld(), blockPos, blockState, this, (EndGatewayBlockEntity) blockEntity);
-					}
+					}*/
 
 					bl = true;
 				}
@@ -749,7 +752,7 @@ public class RatEntity extends TameableEntity implements GeoEntity, Angerable {
 		NbtCompound nbt = new NbtCompound();
 		this.saveNbt(nbt);
 		ratItemStack.set(DataComponentTypes.CUSTOM_DATA, NbtCompound.of(nbt));
-
+		//ratItemStack.set(DataComponentTypes.CUSTOM_DATA, new RatData(writeView.getNbt()));
 		// custom name
 		if (this.hasCustomName()) {
 			ratItemStack.getName();
@@ -823,8 +826,8 @@ public class RatEntity extends TameableEntity implements GeoEntity, Angerable {
 	}
 
 	@Override
-	public boolean canBeLeashedBy(PlayerEntity player) {
-		return !this.hasAngerTime() && super.canBeLeashed();
+	public boolean canBeLeashed() {
+		return !this.hasAngerTime();
 	}
 
 	@Override
@@ -846,7 +849,7 @@ public class RatEntity extends TameableEntity implements GeoEntity, Angerable {
 
 	@Override
 	public boolean isBreedingItem(ItemStack stack) {
-		return stack.getItem().isFood();
+		return stack.contains(DataComponentTypes.FOOD);
 	}
 
 	@Override
@@ -858,7 +861,8 @@ public class RatEntity extends TameableEntity implements GeoEntity, Angerable {
 			if (this.getPotionGene() != null && target instanceof LivingEntity livingEntity) {
 				livingEntity.addStatusEffect(new StatusEffectInstance(Registries.STATUS_EFFECT.getEntry(this.getPotionGene()), 5 * 20));
 			}
-			this.applyDamageEffects(this, target);
+			//TODO Same Here
+			//this.applyDamageEffects(this, target);
 			this.onAttacking(target);
 			return true;
 		}

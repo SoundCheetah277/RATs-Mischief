@@ -1,5 +1,5 @@
 package ladysnake.ratsmischief.common.init;
-
+/*
 import net.fabricmc.fabric.api.itemgroup.v1.FabricItemGroup;
 import net.fabricmc.fabric.api.itemgroup.v1.ItemGroupEvents;
 import net.minecraft.item.Item;
@@ -23,3 +23,5 @@ public class ModItemGroup {
 		ItemGroupEvents.modifyEntriesEvent(group).register(entries -> entries.addItem(item));
 	}
 }
+*/
+//Another unused apparently

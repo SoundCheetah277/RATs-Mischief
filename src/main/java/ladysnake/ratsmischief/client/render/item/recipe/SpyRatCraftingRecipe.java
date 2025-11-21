@@ -6,6 +6,7 @@ import ladysnake.ratsmischief.common.item.RatItem;
 import net.minecraft.inventory.RecipeInputInventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
+import net.minecraft.nbt.NbtCompound;
 import net.minecraft.recipe.Ingredient;
 import net.minecraft.recipe.RecipeSerializer;
 import net.minecraft.recipe.SpecialCraftingRecipe;
@@ -20,8 +21,8 @@ public class SpyRatCraftingRecipe extends SpecialCraftingRecipe {
 	private static final Ingredient RABBIT_HIDE = Ingredient.ofItems(Items.RABBIT_HIDE);
 	private static final Ingredient ENDER_EYE = Ingredient.ofItems(Items.ENDER_EYE);
 
-	public SpyRatCraftingRecipe(CraftingRecipeCategory craftingCategory) {
-		super(id, craftingCategory);
+	public SpyRatCraftingRecipe(CraftingRecipeCategory category) {
+		super(category);
 	}
 
 	@Override
@@ -30,12 +31,13 @@ public class SpyRatCraftingRecipe extends SpecialCraftingRecipe {
 	}
 
 	@Override
-	public boolean matches(RecipeInputInventory inventory, World world) {
+	public boolean matches(CraftingRecipeInput inventory, World world) {
+		if(inventory.getHeight() < 3) return false;
 		for (int i = 0; i < 3; ++i) {
-			ItemStack itemStack = inventory.getStack(i);
+			ItemStack itemStack = inventory.getStackInSlot(i);
 			if (!itemStack.isEmpty()) {
 				if (ENDER_EYE.test(itemStack)) {
-					return RABBIT_HIDE.test(inventory.getStack(i + 3)) && RAT.test(inventory.getStack(i + 6));
+					return RABBIT_HIDE.test(inventory.getStackInSlot(i + 3)) && RAT.test(inventory.getStackInSlot(i + 6));
 				}
 			}
 		}
@@ -51,31 +53,20 @@ public class SpyRatCraftingRecipe extends SpecialCraftingRecipe {
 			ItemStack ratStack = inventory.getStack(i);
 			if (!ratStack.isEmpty()) {
 				if (ratStack.isOf(ModItems.RAT)
-					&& ratStack.getComponents() != null
-					&& ratStack.getComponents().contains(RatsMischief.MOD_ID)
-					&& ratStack.getComponents().getTypes().contains("rat")
-					&& ratStack.getComponents().getTypes().getClass().contains("Age")
-					&& ratStack.getComponents().get("Age") >= 0) {
+					&& ratStack.contains(ModDataComponents.RAT_ENTITY_DATA)
+					&& ratStack.get(ModDataComponents.RAT_ENTITY_DATA).ratTag().getInt("Age").map(age -> age >= 0).orElse(false)) {
 					if (inventory.getStack(i - 3).isOf(Items.RABBIT_HIDE) && inventory.getStack(i - 6).isOf(Items.ENDER_EYE)) {
 						spyRatStack = ratStack.copy();
-						RatItem.getRatTag(spyRatStack).putBoolean("Spy", true);
-						RatItem.getRatTag(spyRatStack).putBoolean("ShouldReturnToOwnerInventory", false);
+						NbtCompound ratNbt = RatItem.getRatTag(spyRatStack);
+						ratNbt.putBoolean("Spy", true);
+						ratNbt.putBoolean("ShouldReturnToOwnerInventory", false);
+						spyRatStack.set(ModDataComponents.RAT_ENTITY_DATA, new RatData(ratNbt));
 					}
 				}
 			}
 		}
 
 		return !spyRatStack.isEmpty() ? spyRatStack : ItemStack.EMPTY;
-	}
-
-	@Override
-	public ItemStack getOutput(DynamicRegistryManager registryManager) {
-		return new ItemStack(ModItems.RAT);
-	}
-
-	@Override
-	public boolean matches(CraftingRecipeInput input, World world) {
-		return false;
 	}
 
 	@Override

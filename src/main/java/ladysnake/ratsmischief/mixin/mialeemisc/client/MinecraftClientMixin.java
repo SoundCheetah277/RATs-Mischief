@@ -21,7 +21,7 @@ public class MinecraftClientMixin {
 	private void mialeeMisc$cancelAttack(CallbackInfoReturnable<Boolean> cir) {
 		if (this.player != null) {
 			if (this.player.getMainHandStack().getItem() instanceof IClickConsumingItem) {
-				ClientPlayNetworking.send(MialeeMisc.clickConsumePacket, PacketByteBufs.empty());
+				ClientPlayNetworking.send(ClickConsumePayload.INSTANCE);
 				cir.setReturnValue(false);
 			}
 		}

@@ -38,7 +38,7 @@ public class RatPouchItem extends Item {
 		this.size = size;
 	}
 
-	@Override
+/*	@Override
 	public TypedActionResult<ItemStack> use(World world, PlayerEntity user, Hand hand) {
 		if (!world.isClient() && user.isSneaking()) {
 			if (user.getStackInHand(hand).getComponents().getFloat("filled") == 1f) {
@@ -85,11 +85,11 @@ public class RatPouchItem extends Item {
 
 		return super.use(world, user, hand);
 	}
-
+*/
 	@Override
 	public ActionResult useOnEntity(ItemStack stack, PlayerEntity user, LivingEntity entity, Hand hand) {
 		NbtList NbtList = user.getStackInHand(hand).getComponents().getList("rats", NbtElement.COMPOUND_TYPE);
-
+//		List<NbtCompound> list = new ArrayList<>(stack.get(ModDataComponents.STORED_RATS).rats());
 		if (NbtList.size() < this.size && entity instanceof RatEntity rat && rat.getOwnerUuid() != null && rat.getOwnerUuid().equals(user.getUuid())) {
 			NbtCompound NbtCompound = new NbtCompound();
 			entity.saveNbt(NbtCompound);
@@ -98,14 +98,23 @@ public class RatPouchItem extends Item {
 			rat.playSpawnEffects();
 			entity.remove(Entity.RemovalReason.DISCARDED);
 			user.getStackInHand(hand).getComponents().putFloat("filled", 1F);
-
+/*		int size = getSize(stack);
+		if (list.size() < size && entity instanceof RatEntity rat && rat.getOwnerReference() != null && rat.getOwnerReference().uuidEquals(user)) {
+			NbtWriteView writeView = NbtWriteView.create(ErrorReporter.EMPTY, user.getWorld().getRegistryManager());
+			rat.writeData(writeView);
+			list.add(writeView.getNbt());
+			stack.set(ModDataComponents.STORED_RATS, new StoredRats(list));
+			rat.playSpawnEffects();
+			entity.remove(Entity.RemovalReason.DISCARDED);
+			stack.set(ModDataComponents.RAT_POUCH_FILLED, true);
+*/
 			return ActionResult.SUCCESS;
 		} else {
 			return ActionResult.PASS;
 		}
 	}
 
-	@Override
+/*	@Override
 	public void appendTooltip(ItemStack stack, @Nullable World world, List<Text> tooltip, TooltipContext context) {
 		var NbtList = stack.getComponents().getClass();
 
@@ -144,5 +153,5 @@ public class RatPouchItem extends Item {
 		}
 
 		super.appendTooltip(stack, world, tooltip, context);
-	}
+	}*/
 }

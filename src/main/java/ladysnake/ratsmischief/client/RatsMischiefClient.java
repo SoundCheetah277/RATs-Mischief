@@ -30,7 +30,8 @@ public class RatsMischiefClient implements ClientModInitializer {
 	public static final ModelIdentifier RAT_MASTER_MASK_WORN = new ModelIdentifier(Identifier.of(RatsMischief.MOD_ID, "rat_master_mask_worn"), "inventory");
 
 	static {
-		ModelPredicateProviderRegistry.register(ModItems.RAT_MASTER_OCARINA, Identifier.of("action"), (stack, world, entity, seed) -> stack.get("action") / 4f);
+		//TODO This was broken
+		//ModelPredicateProviderRegistry.register(ModItems.RAT_MASTER_OCARINA, Identifier.of("action"), (stack, world, entity, seed) -> stack.get("action") / 4f);
 	}
 
 	@Override
@@ -43,7 +44,8 @@ public class RatsMischiefClient implements ClientModInitializer {
 //		ModParticles.init();
 
 		EntityRendererRegistry.register(ModEntities.RAT, RatEntityRenderer::new);
-
+//TODO Figure out how it work, and why we comment out
+		/*
 		RatMasterMaskItemRenderer inventoryItemRenderer = new RatMasterMaskItemRenderer();
 		ResourceManagerHelper.get(ResourceType.CLIENT_RESOURCES).registerReloadListener(inventoryItemRenderer);
 		BuiltinItemRendererRegistry.INSTANCE.register(ModItems.RAT_MASTER_MASK, inventoryItemRenderer);
@@ -60,5 +62,6 @@ public class RatsMischiefClient implements ClientModInitializer {
 
 		// entity renderer registration
 		EntityRendererRegistry.register(ModEntities.ENTITIES, ModEntityRenderer::new);
+	*/
 	}
 }

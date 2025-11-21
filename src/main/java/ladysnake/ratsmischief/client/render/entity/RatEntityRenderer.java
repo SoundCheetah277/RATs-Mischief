@@ -61,11 +61,12 @@ public class RatEntityRenderer extends GeoEntityRenderer<RatEntity> {
 				poseStack.pop();
 
 				// restore the render buffer - GeckoLib expects this state otherwise you'll have weird texture issues
-				buffer = bufferSource.getBuffer(RenderLayer.getEntityCutout(this.getTexture(animatable)));
+				//buffer = bufferSource.getBuffer(RenderLayer.getEntityCutout(this.getTexture(animatable)));
 			}
 		}
 
 		super.renderRecursively(poseStack, animatable, bone, renderType, bufferSource, buffer, isReRender, partialTick, packedLight, packedOverlay, red, green, blue, alpha);
+		//super.renderRecursively(renderState, poseStack, bone, renderType, bufferSource, buffer, isReRender, packedLight, packedOverlay, renderColor);
 	}
 
 	@Override
