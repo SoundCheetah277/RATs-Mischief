@@ -9,7 +9,6 @@ import ladysnake.ratsmischief.common.item.RatPouchItem;
 import ladysnake.ratsmischief.common.util.RatData;
 import net.fabricmc.fabric.api.item.v1.ComponentTooltipAppenderRegistry;
 import net.minecraft.component.ComponentType;
-import net.minecraft.nbt.NbtCompound;
 import net.minecraft.network.RegistryByteBuf;
 import net.minecraft.network.codec.PacketCodec;
 import net.minecraft.network.codec.PacketCodecs;

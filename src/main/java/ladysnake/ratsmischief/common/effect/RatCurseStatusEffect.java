@@ -1,11 +1,14 @@
 package ladysnake.ratsmischief.common.effect;
 
+import ladysnake.ratsmischief.common.init.ModStatusEffects;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.attribute.AttributeContainer;
 import net.minecraft.entity.effect.StatusEffect;
 import net.minecraft.entity.effect.StatusEffectCategory;
+import net.minecraft.entity.effect.StatusEffectInstance;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.particle.ParticleTypes;
+import net.minecraft.registry.entry.RegistryEntry;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.sound.SoundEvents;
 
@@ -27,13 +30,13 @@ public class RatCurseStatusEffect extends StatusEffect {
 			}
 
 			player.playSound(SoundEvents.ENTITY_ILLUSIONER_MIRROR_MOVE);
-			//RemnantComponent.get(player).become(RatsMischiefRequiemPlugin.RATIFIED_REMNANT_TYPE);
+			RemnantComponent.get(player).become(RatsMischiefRequiemPlugin.RATIFIED_REMNANT_TYPE);
 		}
 	}
 
 	@Override
 	public void onRemoved(AttributeContainer attributeContainer) {
-		/*super.onRemoved(entity, attributes, amplifier);
+		super.onRemoved(entity, attributes, amplifier);
 
 		if (entity instanceof PlayerEntity player) {
 			if (player instanceof ServerPlayerEntity serverPlayer) {
@@ -45,7 +48,7 @@ public class RatCurseStatusEffect extends StatusEffect {
 
 			player.playSound(SoundEvents.ENTITY_ILLUSIONER_CAST_SPELL);
 			player.addStatusEffect(new StatusEffectInstance((RegistryEntry<StatusEffect>) ModStatusEffects.RAT_CURSE_COOLDOWN, 1200, 0, false, false, true));
-			//RemnantComponent.get(player).become(RemnantTypes.MORTAL);
+			RemnantComponent.get(player).become(RemnantTypes.MORTAL);
 		}
-	*/}
+	}
 }

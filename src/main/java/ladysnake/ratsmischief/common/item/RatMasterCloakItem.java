@@ -3,13 +3,9 @@ package ladysnake.ratsmischief.common.item;
 import ladysnake.ratsmischief.common.init.ModDataComponents;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.tooltip.TooltipType;
-import net.minecraft.nbt.NbtCompound;
 import net.minecraft.text.Text;
 import net.minecraft.util.Formatting;
-import net.minecraft.world.World;
-import org.jetbrains.annotations.Nullable;
 
-import java.util.List;
 import java.util.function.Consumer;
 
 public class RatMasterCloakItem extends RatMasterArmorItem {

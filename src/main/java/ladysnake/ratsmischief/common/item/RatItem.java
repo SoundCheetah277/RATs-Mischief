@@ -3,6 +3,7 @@ package ladysnake.ratsmischief.common.item;
 import ladysnake.ratsmischief.client.render.item.RatItemRenderer;
 import ladysnake.ratsmischief.common.entity.RatEntity;
 import ladysnake.ratsmischief.common.init.ModEntities;
+import ladysnake.ratsmischief.mialeemisc.util.MialeeText;
 import net.minecraft.component.DataComponentTypes;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.PlayerInventory;
@@ -10,10 +11,9 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.ItemUsageContext;
 import net.minecraft.nbt.NbtCompound;
-import net.minecraft.util.ActionResult;
-import net.minecraft.util.DyeColor;
-import net.minecraft.util.Hand;
-import net.minecraft.util.TypedActionResult;
+import net.minecraft.registry.Registries;
+import net.minecraft.text.Text;
+import net.minecraft.util.*;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
 import org.jetbrains.annotations.Nullable;
@@ -27,6 +27,7 @@ import software.bernie.geckolib.animation.PlayState;
 import software.bernie.geckolib.renderer.GeoItemRenderer;
 import software.bernie.geckolib.util.GeckoLibUtil;
 
+import java.util.List;
 import java.util.function.Consumer;
 
 public class RatItem extends Item implements GeoItem {
@@ -163,7 +164,7 @@ public class RatItem extends Item implements GeoItem {
 		return rat;
 	}
 
-	/*@Override
+	@Override
 	public void appendTooltip(ItemStack stack, @Nullable World world, List<Text> tooltip, TooltipContext context) {
 		var ratTag = getRatTag(stack, world);
 		var ratType = Text.translatable("type.ratsmischief." + getRatType(stack).name().toLowerCase());
@@ -193,5 +194,5 @@ public class RatItem extends Item implements GeoItem {
 		}
 
 		super.appendTooltip(stack, world, tooltip, context);
-	}*/
+	}
 }

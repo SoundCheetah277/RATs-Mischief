@@ -94,18 +94,18 @@ public abstract class ArmorFeatureRendererMixin<T extends LivingEntity, M extend
 				this.setRatVisible(armorModel, armorSlot, itemStack);
 				this.setRatPoses(armorModel, armorSlot);
 
-//				if (!playerModel.body.visible) {
-//					armorModel.body.visible = false;
-//				}
-//				if (!playerModel.leftLeg.visible) {
-//					armorModel.leftLeg.visible = false;
-//				}
-//				if (!playerModel.rightLeg.visible) {
-//					armorModel.rightLeg.visible = false;
-//				}
-//				if (!playerModel.head.visible) {
-//					armorModel.head.visible = false;
-//				}
+				if (!playerModel.body.visible) {
+					armorModel.body.visible = false;
+				}
+				if (!playerModel.leftLeg.visible) {
+					armorModel.leftLeg.visible = false;
+				}
+				if (!playerModel.rightLeg.visible) {
+					armorModel.rightLeg.visible = false;
+				}
+				if (!playerModel.head.visible) {
+					armorModel.head.visible = false;
+				}
 
 				this.renderRatArmorParts(matrices, vertexConsumers, light, armorItem, armorModel, this.usesRatSecondLayer(armorSlot));
 			}

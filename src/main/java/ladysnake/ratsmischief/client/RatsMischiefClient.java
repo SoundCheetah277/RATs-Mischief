@@ -6,6 +6,7 @@ import ladysnake.ratsmischief.common.RatsMischief;
 import ladysnake.ratsmischief.common.init.ModEntities;
 import ladysnake.ratsmischief.common.init.ModItems;
 import net.fabricmc.api.ClientModInitializer;
+import net.fabricmc.fabric.api.blockrenderlayer.v1.BlockRenderLayerMap;
 import net.fabricmc.fabric.api.client.model.loading.v1.ModelLoadingPlugin;
 import net.fabricmc.fabric.api.client.rendering.v1.BuiltinItemRendererRegistry;
 import net.fabricmc.fabric.api.client.rendering.v1.EntityModelLayerRegistry;
@@ -31,7 +32,7 @@ public class RatsMischiefClient implements ClientModInitializer {
 
 	static {
 		//TODO This was broken
-		//ModelPredicateProviderRegistry.register(ModItems.RAT_MASTER_OCARINA, Identifier.of("action"), (stack, world, entity, seed) -> stack.get("action") / 4f);
+		ModelPredicateProviderRegistry.register(ModItems.RAT_MASTER_OCARINA, Identifier.of("action"), (stack, world, entity, seed) -> stack.get("action") / 4f);
 	}
 
 	@Override
@@ -40,12 +41,12 @@ public class RatsMischiefClient implements ClientModInitializer {
 		EntityModelLayerRegistry.registerModelLayer(RAT_MASTER_ARMOR_OUTER_LAYER, () -> TexturedModelData.of(PlayerEntityModel.getTexturedModelData(new Dilation(0.29f), false), 64, 64));
 		EntityModelLayerRegistry.registerModelLayer(RAT_MASTER_ARMOR_OUTER_LAYER_SLIM, () -> TexturedModelData.of(PlayerEntityModel.getTexturedModelData(new Dilation(0.29f), true), 64, 64));
 
-//		ModParticles.registerFactories();
-//		ModParticles.init();
+		ModParticles.registerFactories();
+		ModParticles.init();
 
 		EntityRendererRegistry.register(ModEntities.RAT, RatEntityRenderer::new);
 //TODO Figure out how it work, and why we comment out
-		/*
+
 		RatMasterMaskItemRenderer inventoryItemRenderer = new RatMasterMaskItemRenderer();
 		ResourceManagerHelper.get(ResourceType.CLIENT_RESOURCES).registerReloadListener(inventoryItemRenderer);
 		BuiltinItemRendererRegistry.INSTANCE.register(ModItems.RAT_MASTER_MASK, inventoryItemRenderer);
@@ -62,6 +63,6 @@ public class RatsMischiefClient implements ClientModInitializer {
 
 		// entity renderer registration
 		EntityRendererRegistry.register(ModEntities.ENTITIES, ModEntityRenderer::new);
-	*/
+
 	}
 }

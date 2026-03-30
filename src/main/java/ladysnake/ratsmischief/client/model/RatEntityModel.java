@@ -41,7 +41,7 @@ public class RatEntityModel extends GeoModel<RatEntity> {
 			leftEar.setRotX(MathHelper.clamp(ratEntity.getPitch(), -90, 0) * 1.4f * ((float) Math.PI / 180F));
 			rightEar.setRotX(MathHelper.clamp(ratEntity.getPitch(), -90, 0) * 1.4f * ((float) Math.PI / 180F));
 
-//            head.setRotationY(ratEntity.getHeadYaw() * ((float) Math.PI / 180F));
+            head.setRotationY(ratEntity.getHeadYaw() * ((float) Math.PI / 180F));
 		}
 
 		// sexually aroused rat

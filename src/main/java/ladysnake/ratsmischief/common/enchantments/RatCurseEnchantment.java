@@ -10,7 +10,7 @@ import net.minecraft.entity.LivingEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.Rarity;
 //TODO Work into code (Temp Comment)
-/*
+
 public class RatCurseEnchantment extends Enchantments {
 	public RatCurseEnchantment(Rarity weight, EquipmentSlot... slotTypes) {
 		super(weight, EnchantmentTarget.WEARABLE, slotTypes);
@@ -57,4 +57,4 @@ public class RatCurseEnchantment extends Enchantments {
 		return true;
 	}
 }
-*/
+

@@ -1,6 +1,7 @@
 package ladysnake.ratsmischief.common.item;
 
 import ladysnake.ratsmischief.common.entity.RatEntity;
+import ladysnake.ratsmischief.common.init.ModDataComponents;
 import ladysnake.ratsmischief.common.init.ModEntities;
 import ladysnake.ratsmischief.mialeemisc.util.MialeeText;
 import net.fabricmc.fabric.api.util.NbtType;
@@ -22,6 +23,7 @@ import net.minecraft.util.TypedActionResult;
 import net.minecraft.world.World;
 import org.jetbrains.annotations.Nullable;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.function.Predicate;
 import java.util.regex.Pattern;
@@ -38,7 +40,7 @@ public class RatPouchItem extends Item {
 		this.size = size;
 	}
 
-/*	@Override
+	@Override
 	public TypedActionResult<ItemStack> use(World world, PlayerEntity user, Hand hand) {
 		if (!world.isClient() && user.isSneaking()) {
 			if (user.getStackInHand(hand).getComponents().getFloat("filled") == 1f) {
@@ -65,7 +67,7 @@ public class RatPouchItem extends Item {
 						if (i < closestOwnedRats.size()) {
 							NbtCompound nbt = new NbtCompound();
 							closestOwnedRats.get(i).saveNbt(nbt);
-//							nbt.remove("UUID");
+							nbt.remove("UUID");
 							NbtList.add(nbt);
 							closestOwnedRats.get(i).playSpawnEffects();
 							closestOwnedRats.get(i).remove(Entity.RemovalReason.DISCARDED);
@@ -85,11 +87,11 @@ public class RatPouchItem extends Item {
 
 		return super.use(world, user, hand);
 	}
-*/
+
 	@Override
 	public ActionResult useOnEntity(ItemStack stack, PlayerEntity user, LivingEntity entity, Hand hand) {
 		NbtList NbtList = user.getStackInHand(hand).getComponents().getList("rats", NbtElement.COMPOUND_TYPE);
-//		List<NbtCompound> list = new ArrayList<>(stack.get(ModDataComponents.STORED_RATS).rats());
+		List<NbtCompound> list = new ArrayList<>(stack.get(ModDataComponents.STORED_RATS).rats());
 		if (NbtList.size() < this.size && entity instanceof RatEntity rat && rat.getOwnerUuid() != null && rat.getOwnerUuid().equals(user.getUuid())) {
 			NbtCompound NbtCompound = new NbtCompound();
 			entity.saveNbt(NbtCompound);

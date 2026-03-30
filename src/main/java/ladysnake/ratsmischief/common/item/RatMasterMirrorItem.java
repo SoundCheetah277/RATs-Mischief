@@ -15,7 +15,7 @@ public class RatMasterMirrorItem extends Item {
 		super(settings);
 	}
 
-/*
+
 	@Override
 	public TypedActionResult<ItemStack> use(World world, PlayerEntity user, Hand hand) {
 		if (!world.isClient()) {
@@ -43,6 +43,5 @@ public class RatMasterMirrorItem extends Item {
 		return TypedActionResult.success(user.getStackInHand(hand));
 	}
 
- */
 
 }

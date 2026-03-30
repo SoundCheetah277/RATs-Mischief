@@ -25,7 +25,7 @@ import java.util.Map;
 public interface ModItems {
 	Map<Item, Identifier> ITEMS = new LinkedHashMap<>();
 
-	//	Item MOD_ITEM = createItem("mod_item", new ModItem(new FabricItemSettings()));
+		Item MOD_ITEM = createItem("mod_item", new ModItem(new FabricItemSettings()));
 	Item RAT = createItem("rat", new RatItem(new Item.Settings().maxCount(1)));
 	Item RAT_SPAWN_EGG = createItem("rat_spawn_egg", new SpawnEggItem(ModEntities.RAT, 0x2E1C1C, 0x241317, new Item.Settings()));
 
@@ -51,7 +51,7 @@ public interface ModItems {
 	static void initialize() {
 		ITEMS.keySet().forEach(item -> {
 			Registry.register(Registries.ITEM, ITEMS.get(item), item);
-//			ModItemGroup.addToItemGroup(ModItemGroup.MOD_ITEMS, item);
+			ModItemGroup.addToItemGroup(ModItemGroup.MOD_ITEMS, item);
 		});
 		ItemGroupEvents.modifyEntriesEvent(ItemGroups.COMBAT).register(entries -> {
 			entries.add(RAT_MASTER_HOOD);

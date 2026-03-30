@@ -501,13 +501,13 @@ public class RatEntity extends TameableEntity implements GeoEntity, Angerable {
 				BlockPos blockPos = ((BlockHitResult) hitResult).getBlockPos();
 				BlockState blockState = this.getWorld().getBlockState(blockPos);
 				if (blockState.isOf(Blocks.NETHER_PORTAL)) {
-					//this.setInNetherPortal(blockPos);
+					this.setInNetherPortal(blockPos);
 					bl = true;
 				} else if (blockState.isOf(Blocks.END_GATEWAY)) {
 					BlockEntity blockEntity = this.getWorld().getBlockEntity(blockPos);
-					/*if (blockEntity instanceof EndGatewayBlockEntity && EndGatewayBlockEntity.canTeleport(this)) {
+					if (blockEntity instanceof EndGatewayBlockEntity && EndGatewayBlockEntity.canTeleport(this)) {
 						EndGatewayBlockEntity.tryTeleportingEntity(this.getWorld(), blockPos, blockState, this, (EndGatewayBlockEntity) blockEntity);
-					}*/
+					}
 
 					bl = true;
 				}
@@ -522,7 +522,7 @@ public class RatEntity extends TameableEntity implements GeoEntity, Angerable {
 			double d = this.getX() + vec3d.x;
 			double e = this.getY() + vec3d.y;
 			double f = this.getZ() + vec3d.z;
-//			this.updateRotation();
+			this.updateRotation();
 			if (this.isTouchingWater()) {
 				for (int i = 0; i < 4; ++i) {
 					this.getWorld().addParticle(ParticleTypes.BUBBLE, d - vec3d.x * 0.25, e - vec3d.y * 0.25, f - vec3d.z * 0.25, vec3d.x, vec3d.y, vec3d.z);
@@ -608,9 +608,9 @@ public class RatEntity extends TameableEntity implements GeoEntity, Angerable {
 					case "jerma", "jerma985" -> this.setRatType(Type.JERMA);
 					case "biggie cheese" -> this.setRatType(Type.BIGGIE_CHEESE);
 
-//					case "gin" -> this.setRatType(Type.HUSKY);
-//					case "splinter", "tonic" -> this.setRatType(Type.HUSKY_GHOST);
-//					case "sai-sai", "shiro" -> this.setRatType(Type.WILD_GHOST);
+					case "gin" -> this.setRatType(Type.HUSKY);
+					case "splinter", "tonic" -> this.setRatType(Type.HUSKY_GHOST);
+					case "sai-sai", "shiro" -> this.setRatType(Type.WILD_GHOST);
 				}
 			}
 
@@ -752,7 +752,7 @@ public class RatEntity extends TameableEntity implements GeoEntity, Angerable {
 		NbtCompound nbt = new NbtCompound();
 		this.saveNbt(nbt);
 		ratItemStack.set(DataComponentTypes.CUSTOM_DATA, NbtCompound.of(nbt));
-		//ratItemStack.set(DataComponentTypes.CUSTOM_DATA, new RatData(writeView.getNbt()));
+		ratItemStack.set(DataComponentTypes.CUSTOM_DATA, new RatData(writeView.getNbt()));
 		// custom name
 		if (this.hasCustomName()) {
 			ratItemStack.getName();
@@ -862,7 +862,7 @@ public class RatEntity extends TameableEntity implements GeoEntity, Angerable {
 				livingEntity.addStatusEffect(new StatusEffectInstance(Registries.STATUS_EFFECT.getEntry(this.getPotionGene()), 5 * 20));
 			}
 			//TODO Same Here
-			//this.applyDamageEffects(this, target);
+			this.applyDamageEffects(this, target);
 			this.onAttacking(target);
 			return true;
 		}

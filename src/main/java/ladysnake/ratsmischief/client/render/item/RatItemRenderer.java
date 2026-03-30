@@ -30,7 +30,7 @@ public class RatItemRenderer extends GeoItemRenderer<RatItem> {
 
 	@Override
 	public void render(ItemStack stack, ModelTransformationMode transformType, MatrixStack poseStack, VertexConsumerProvider bufferSource, int packedLight, int packedOverlay) {
-//		super.render(stack, transformType, poseStack, bufferSource, packedLight, packedOverlay);
+		super.render(stack, transformType, poseStack, bufferSource, packedLight, packedOverlay);
 
 		NbtCompound ratNbt = Optional.ofNullable(stack.getComponents()).map(nbt -> nbt.getCompound(RatsMischief.MOD_ID)).map(nbt -> nbt.getCompound("rat")).orElse(null);
 
@@ -42,7 +42,7 @@ public class RatItemRenderer extends GeoItemRenderer<RatItem> {
 			poseStack.translate(0.0f, 0.0f, 0.10f);
 		}
 
-//		String ratName = RatItem.getRatName(stack);
+		String ratName = RatItem.getRatName(stack);
 
 		RatEntity.Type ratType = RatItem.getRatType(stack);
 		DyeColor ratColor = RatItem.getRatColor(stack);
