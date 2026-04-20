@@ -3,6 +3,7 @@ package ladysnake.ratsmischief.common.init;
 import net.fabricmc.fabric.api.client.particle.v1.ParticleFactoryRegistry;
 import net.fabricmc.fabric.api.particle.v1.FabricParticleTypes;
 import net.minecraft.particle.ParticleType;
+import net.minecraft.particle.SimpleParticleType;
 import net.minecraft.registry.Registries;
 import net.minecraft.registry.Registry;
 import net.minecraft.util.Identifier;
@@ -12,7 +13,7 @@ import java.util.function.BiConsumer;
 public interface ModParticles {
 
 	ParticleWithTypeParticleType PARTICLE_WITH_TYPE = new ParticleWithTypeParticleType(true);
-	DefaultParticleType DEFAULT_PARTICLE = FabricParticleTypes.simple(true);
+	SimpleParticleType DEFAULT_PARTICLE = FabricParticleTypes.simple(true);
 
 
 	static void init() {
@@ -22,7 +23,7 @@ public interface ModParticles {
 	static void registerFactories() {
 
 		ParticleFactoryRegistry.getInstance().register(PARTICLE_WITH_TYPE, ParticleWithTypeParticleType.Factory::new);
-		ParticleFactoryRegistry.getInstance().register(DEFAULT_PARTICLE, DefaultParticle.Factory::new);
+		ParticleFactoryRegistry.getInstance().register(DEFAULT_PARTICLE, SimpleParticleType.Factory::new);
 
 	}
 

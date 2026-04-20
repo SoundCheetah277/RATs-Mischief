@@ -1,6 +1,7 @@
 package ladysnake.ratsmischief.client.render.item.recipe;
 
 import ladysnake.ratsmischief.common.RatsMischief;
+import ladysnake.ratsmischief.common.init.ModDataComponents;
 import ladysnake.ratsmischief.common.init.ModItems;
 import ladysnake.ratsmischief.common.item.RatItem;
 import net.minecraft.inventory.RecipeInputInventory;

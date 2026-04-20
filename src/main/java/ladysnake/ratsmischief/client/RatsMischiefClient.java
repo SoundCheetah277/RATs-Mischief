@@ -3,8 +3,10 @@ package ladysnake.ratsmischief.client;
 import ladysnake.ratsmischief.client.render.entity.RatEntityRenderer;
 import ladysnake.ratsmischief.client.render.item.RatMasterMaskItemRenderer;
 import ladysnake.ratsmischief.common.RatsMischief;
+import ladysnake.ratsmischief.common.init.ModBlocks;
 import ladysnake.ratsmischief.common.init.ModEntities;
 import ladysnake.ratsmischief.common.init.ModItems;
+import ladysnake.ratsmischief.common.init.ModParticles;
 import net.fabricmc.api.ClientModInitializer;
 import net.fabricmc.fabric.api.blockrenderlayer.v1.BlockRenderLayerMap;
 import net.fabricmc.fabric.api.client.model.loading.v1.ModelLoadingPlugin;
@@ -59,7 +61,7 @@ public class RatsMischiefClient implements ClientModInitializer {
 		ModelPredicateProviderRegistry.register(RatsMischief.id("filled"), (itemStack, world, livingEntity, seed) -> itemStack.getComponents().getFloat("filled"));
 
 		// block render layer map
-		BlockRenderLayerMap.put(RenderLayer.getCutout(), ModBlock.MOD_BLOCK);
+		BlockRenderLayerMap.put(RenderLayer.getCutout(), ModBlocks.MOD_BLOCK);
 
 		// entity renderer registration
 		EntityRendererRegistry.register(ModEntities.ENTITIES, ModEntityRenderer::new);

@@ -15,11 +15,7 @@ import net.minecraft.nbt.NbtElement;
 import net.minecraft.nbt.NbtList;
 import net.minecraft.registry.Registries;
 import net.minecraft.text.Text;
-import net.minecraft.util.ActionResult;
-import net.minecraft.util.Formatting;
-import net.minecraft.util.Hand;
-import net.minecraft.util.Identifier;
-import net.minecraft.util.TypedActionResult;
+import net.minecraft.util.*;
 import net.minecraft.world.World;
 import org.jetbrains.annotations.Nullable;
 
@@ -28,8 +24,6 @@ import java.util.List;
 import java.util.function.Predicate;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
-
-import static net.minecraft.text.Style.EMPTY;
 
 public class RatPouchItem extends Item {
 	private static final Predicate<RatEntity> CLOSEST_RAT_PREDICATE = (ratEntity) -> ratEntity.isTamed();
@@ -116,7 +110,7 @@ public class RatPouchItem extends Item {
 		}
 	}
 
-/*	@Override
+	@Override
 	public void appendTooltip(ItemStack stack, @Nullable World world, List<Text> tooltip, TooltipContext context) {
 		var NbtList = stack.getComponents().getClass();
 
@@ -155,5 +149,5 @@ public class RatPouchItem extends Item {
 		}
 
 		super.appendTooltip(stack, world, tooltip, context);
-	}*/
+	}
 }
